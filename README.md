@@ -103,3 +103,4 @@ All endpoints rely on the PostgreSQL database through Prisma, so ensure migratio
 - `npm run lint` validates TypeScript + React rules.
 - Charts and dashboards use live data; seed the database to visualise the complete layout.
 - OTP emailing requires working SMTP credentials; otherwise the UI will show warnings but continue gracefully.
+# LPG-Nexus-Project
