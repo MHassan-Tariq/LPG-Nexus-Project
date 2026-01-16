@@ -1,0 +1,369 @@
+// LPGNexus Database Schema - DBML
+// Copy the content below and paste it into https://dbdiagram.io/d
+
+Project LPGNexus {
+  database_type: 'PostgreSQL'
+  Note: 'LPG Management System Database Design - Synced with Prisma'
+}
+
+// ------------------------------------------------------------------------------------------
+// 1. Users & Auth (Model: User, Otp, SuperAdminAccessCode)
+// ------------------------------------------------------------------------------------------
+
+Table users {
+  id varchar [primary key, note: 'Cuid']
+  name varchar [not null]
+  email varchar [unique, not null]
+  phone varchar
+  role user_role [default: 'ADMIN']
+  status user_status [default: 'PENDING']
+  is_verified boolean [default: false]
+  username varchar [unique]
+  department varchar
+  branch varchar
+  profile_image varchar
+  company_description varchar
+  street_address varchar
+  city varchar
+  state_province varchar
+  country varchar
+  password_hash varchar
+  business_name varchar
+  
+  // Settings & JSON preferences
+  bill_template_design json
+  bill_presets json
+  report_template_design json
+  report_presets json
+  theme_preferences json
+  logo_custom_upload varchar
+  font_preferences json
+  permissions json
+  
+  last_login timestamp
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+
+  // Multi-tenancy
+  admin_id varchar [ref: > users.id, note: 'Self-reference for Tenant Owner']
+}
+
+Enum user_role {
+  SUPER_ADMIN
+  ADMIN
+  STAFF
+  VIEWER
+  BRANCH_MANAGER
+}
+
+Enum user_status {
+  ACTIVE
+  SUSPENDED
+  PENDING
+}
+
+Table otps {
+  id varchar [primary key]
+  email varchar [not null]
+  code varchar [not null]
+  expires_at timestamp [not null]
+  verified_at timestamp
+  created_at timestamp [default: `now()`]
+}
+
+Table super_admin_access_codes {
+  id varchar [primary key]
+  code varchar [unique, not null]
+  is_active boolean [default: true]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+}
+
+// ------------------------------------------------------------------------------------------
+// 2. Customers (Model: Customer)
+// ------------------------------------------------------------------------------------------
+
+Table customers {
+  id varchar [primary key]
+  customer_code integer [increment]
+  name varchar [not null]
+  contact_number varchar [not null]
+  email varchar
+  customer_type varchar [not null]
+  cylinder_type varchar [not null]
+  bill_type varchar [not null]
+  security_deposit integer
+  area varchar
+  city varchar
+  country varchar
+  notes text
+  additional_contacts json
+  status varchar [default: 'ACTIVE']
+  address varchar
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+
+  // Multi-tenancy
+  admin_id varchar [ref: > users.id]
+}
+
+// ------------------------------------------------------------------------------------------
+// 3. Cylinders & Inventory (Model: Cylinder, InventoryItem)
+// ------------------------------------------------------------------------------------------
+
+Table cylinders {
+  id varchar [primary key]
+  serial_number varchar [not null]
+  gas_type varchar [not null]
+  capacity_liters integer [not null]
+  status cylinder_status [default: 'IN_STOCK']
+  location varchar [not null]
+  pressure_psi float
+  last_inspection timestamp
+  next_inspection timestamp
+  notes text
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+
+  // Relations
+  admin_id varchar [ref: > users.id]
+  customer_id varchar [ref: > customers.id]
+}
+
+Enum cylinder_status {
+  IN_STOCK
+  ASSIGNED
+  MAINTENANCE
+  RETIRED
+}
+
+Table inventory_items {
+  id varchar [primary key]
+  cylinder_type varchar [not null]
+  category varchar [default: 'General']
+  quantity integer [not null]
+  unit_price float
+  vendor varchar [not null]
+  received_by varchar [not null]
+  description text
+  verified boolean [default: false]
+  entry_date timestamp [not null]
+  created_at timestamp [default: `now()`]
+
+  // Relations
+  admin_id varchar [ref: > users.id]
+}
+
+// ------------------------------------------------------------------------------------------
+// 4. Transactions & Logistics (Model: CylinderTransaction, CylinderEntry, ActivityLog)
+// ------------------------------------------------------------------------------------------
+
+Table cylinder_transactions {
+  id varchar [primary key]
+  cylinder_id varchar [ref: > cylinders.id]
+  customer_id varchar [ref: > customers.id]
+  user_id varchar [ref: > users.id]
+  type transaction_type [not null]
+  quantity integer [default: 1]
+  recorded_at timestamp [default: `now()`]
+  due_date timestamp
+  notes text
+  created_at timestamp [default: `now()`]
+
+  // Relations
+  admin_id varchar [ref: > users.id]
+}
+
+Enum transaction_type {
+  ISSUE
+  RETURN
+  MAINTENANCE
+  INSPECTION
+}
+
+Table cylinder_entries {
+  id varchar [primary key]
+  bill_created_by varchar [not null]
+  cylinder_type varchar [not null]
+  cylinder_label varchar
+  delivered_by varchar
+  unit_price integer [default: 0]
+  quantity integer [default: 1]
+  amount integer [not null]
+  customer_name varchar [not null]
+  customer_id varchar
+  verified boolean [default: false]
+  description text
+  delivery_date timestamp [default: `now()`]
+  created_at timestamp [default: `now()`]
+  
+  // Received Type Fields
+  payment_type varchar
+  payment_amount integer
+  payment_received_by varchar
+  empty_cylinder_received integer
+
+  // Relations
+  admin_id varchar [ref: > users.id]
+}
+
+Table activity_logs {
+  id varchar [primary key]
+  user_id varchar [ref: > users.id]
+  action varchar [not null]
+  module varchar
+  details text
+  ip_address varchar
+  user_agent varchar
+  created_at timestamp [default: `now()`]
+}
+
+// ------------------------------------------------------------------------------------------
+// 5. Billing & Payments (Model: Bill, Invoice, Payment, PaymentLog, Expense)
+// ------------------------------------------------------------------------------------------
+
+Table bills {
+  id varchar [primary key]
+  customer_id varchar [ref: > customers.id]
+  bill_start_date timestamp [not null]
+  bill_end_date timestamp [not null]
+  last_month_remaining integer [default: 0]
+  current_month_bill integer [default: 0]
+  cylinders integer [default: 0]
+  status bill_status [default: 'NOT_PAID']
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+
+  // Relations
+  admin_id varchar [ref: > users.id]
+}
+
+Enum bill_status {
+  PAID
+  PARTIALLY_PAID
+  NOT_PAID
+}
+
+Table invoices {
+  id varchar [primary key]
+  invoice_number varchar [unique, not null]
+  bill_id varchar [ref: - bills.id, unique]
+  customer_id varchar [ref: > customers.id]
+  pdf_url varchar [not null]
+  generated_at timestamp [default: `now()`]
+  generated_by_id varchar [ref: > users.id]
+
+  // Relations
+  admin_id varchar [ref: > users.id]
+}
+
+Table payments {
+  id varchar [primary key]
+  bill_id varchar [ref: > bills.id]
+  amount integer [not null]
+  paid_on timestamp [default: `now()`]
+  method varchar [default: 'bank_transfer']
+  notes text
+  created_at timestamp [default: `now()`]
+
+  // Relations
+  admin_id varchar [ref: > users.id]
+}
+
+Table payment_logs {
+  id varchar [primary key]
+  bill_id varchar
+  payment_id varchar
+  customer_name varchar [not null]
+  customer_code integer
+  event_type payment_event_type [not null]
+  amount integer
+  details text
+  bill_start_date timestamp
+  bill_end_date timestamp
+  performed_at timestamp [default: `now()`]
+  created_at timestamp [default: `now()`]
+
+  // Relations
+  admin_id varchar [ref: > users.id]
+}
+
+Enum payment_event_type {
+  BILL_GENERATED
+  BILL_UPDATED
+  BILL_DELETED
+  PAYMENT_RECEIVED
+  PARTIAL_PAYMENT
+  INVOICE_GENERATED
+  INVOICE_DOWNLOADED
+  INVOICE_DELETED
+}
+
+Table expenses {
+  id varchar [primary key]
+  expense_type varchar [not null]
+  amount integer [not null]
+  category expense_category [default: 'HOME']
+  expense_date timestamp [not null]
+  description text
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+
+  // Relations
+  admin_id varchar [ref: > users.id]
+}
+
+Enum expense_category {
+  HOME
+  OTHER
+}
+
+// ------------------------------------------------------------------------------------------
+// 6. System & Maintenance (Model: SystemSettings, Backup, Restore, DailyNote)
+// ------------------------------------------------------------------------------------------
+
+Table system_settings {
+  id varchar [primary key]
+  key varchar [not null]
+  value varchar [not null]
+  updated_at timestamp [default: `now()`]
+  
+  // Relations
+  admin_id varchar [ref: > users.id]
+}
+
+Table backups {
+  id varchar [primary key]
+  file_name varchar [not null]
+  file_size integer
+  backup_date timestamp [default: `now()`]
+  is_automatic boolean [default: false]
+  created_at timestamp [default: `now()`]
+
+  // Relations
+  admin_id varchar [ref: > users.id]
+}
+
+Table restores {
+  id varchar [primary key]
+  file_name varchar [not null]
+  restore_date timestamp [default: `now()`]
+  created_at timestamp [default: `now()`]
+
+  // Relations
+  admin_id varchar [ref: > users.id]
+}
+
+Table daily_notes {
+  id varchar [primary key]
+  note_date timestamp [not null]
+  note_text text
+  sections json
+  labels json
+  character_count integer [default: 0]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+
+  // Relations
+  admin_id varchar [ref: > users.id]
+}
