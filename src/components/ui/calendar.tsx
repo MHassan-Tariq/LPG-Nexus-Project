@@ -1,0 +1,70 @@
+"use client";
+
+import * as React from "react";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/dist/style.css";
+
+import { cn } from "@/lib/utils";
+
+export type CalendarProps = React.ComponentProps<typeof DayPicker>;
+
+function Calendar({ className, classNames, showOutsideDays = true, ...props }: CalendarProps) {
+  return (
+    <DayPicker
+      showOutsideDays={showOutsideDays}
+      className={cn("p-3", className)}
+      classNames={{
+        months: "flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0",
+        month: "space-y-4",
+        caption: "flex justify-between pt-1 pb-3 relative items-center px-1",
+        caption_label: "hidden",
+        caption_dropdowns: "flex gap-3 items-center justify-center",
+        dropdown: "h-10 border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-900 shadow-sm transition-colors hover:bg-slate-50 hover:border-slate-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 rounded-lg appearance-none cursor-pointer",
+        dropdown_month: "h-10 border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-900 shadow-sm transition-colors hover:bg-slate-50 hover:border-slate-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 rounded-lg appearance-none cursor-pointer min-w-[85px] pr-8 relative",
+        dropdown_year: "h-10 border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-900 shadow-sm transition-colors hover:bg-slate-50 hover:border-slate-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 rounded-lg appearance-none cursor-pointer min-w-[85px] pr-8 relative",
+        nav: "absolute top-1 right-1 flex items-center gap-1",
+        nav_button: cn(
+          "h-8 w-8 bg-transparent p-0 opacity-60 hover:opacity-100 rounded-md hover:bg-slate-100 flex items-center justify-center transition-all text-slate-700"
+        ),
+        nav_button_previous: "",
+        nav_button_next: "",
+        table: "w-full border-collapse space-y-1",
+        head_row: "flex",
+        head_cell:
+          "text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]",
+        row: "flex w-full mt-2",
+        cell: "h-9 w-9 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
+        day: cn(
+          "h-9 w-9 p-0 font-normal aria-selected:opacity-100"
+        ),
+        day_selected:
+          "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
+        day_today: "bg-accent text-accent-foreground",
+        day_outside:
+          "day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
+        day_disabled: "text-muted-foreground opacity-50",
+        day_range_middle:
+          "aria-selected:bg-accent aria-selected:text-accent-foreground",
+        day_hidden: "invisible",
+        ...classNames,
+      }}
+      components={{
+        IconLeft: () => (
+          <svg viewBox="0 0 24 24" className="h-4 w-4">
+            <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
+          </svg>
+        ),
+        IconRight: () => (
+          <svg viewBox="0 0 24 24" className="h-4 w-4">
+            <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
+          </svg>
+        ),
+      }}
+      {...props}
+    />
+  );
+}
+Calendar.displayName = "Calendar";
+
+export { Calendar };
+

@@ -1,36 +1,105 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Cylinder Management Dashboard
 
-## Getting Started
+This project implements the LPG Nexus cylinder management dashboard using **Next.js 14**, **TypeScript**, **Tailwind + shadcn/ui**, and a **PostgreSQL** backend managed through Prisma. It mirrors the provided Figma layout with:
 
-First, run the development server:
+- Real-time cylinder inventory search with server-side pagination (`/api/cylinders`).
+- Operational analytics (status doughnut, six-month usage trends, maintenance watchlist) rendered with Chart.js.
+- Structured CRUD flows powered by React Hook Form + Zod.
+- OTP workflows via Nodemailer and PDF export via React PDF.
+
+---
+
+## Prerequisites
+
+- Node.js 18+ and npm.
+- PostgreSQL instance accessible to the app (local or remote).
+
+---
+
+## 1. Environment variables
+
+Copy the template and update the placeholders with your database and SMTP credentials:
+
+```bash
+cp .env.example .env
+```
+
+Required keys:
+
+- `DATABASE_URL` – PostgreSQL connection string.
+- `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_USER`, `EMAIL_PASSWORD`, `EMAIL_FROM` – SMTP settings for OTP delivery.
+
+---
+
+## 2. Install dependencies
+
+```bash
+npm install
+```
+
+---
+
+## 3. Database bootstrap
+
+Push the Prisma schema and optionally load the starter data:
+
+```bash
+npm run db:push      # creates tables based on prisma/schema.prisma
+npm run db:seed      # optional: loads demo cylinders, customers and transactions
+```
+
+> The schema and seed data live under `prisma/`.
+
+---
+
+## 4. Run the app
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit [http://localhost:3000](http://localhost:3000) to interact with the dashboard.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project structure
 
-## Learn More
+- `src/app/page.tsx` – dashboard composition (layout, data fetching).
+- `src/app/api/**` – REST endpoints (cylinders, customers, transactions, OTP, reports).
+- `src/components/dashboard/**` – UI modules mapped from the Figma design.
+- `src/lib/**` – Prisma client, OTP helpers, validators, mailer utilities.
+- `prisma/schema.prisma` – relational data model with seed script.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Available scripts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Command            | Description                                |
+| ------------------ | ------------------------------------------ |
+| `npm run dev`      | Start Next.js in development mode          |
+| `npm run build`    | Create production build                    |
+| `npm run start`    | Serve the production build                 |
+| `npm run lint`     | Run ESLint (core web vitals rules)         |
+| `npm run db:push`  | Apply Prisma schema to the database        |
+| `npm run db:seed`  | Seed demo data (uses `prisma/seed.ts`)     |
+| `npm run db:generate` | Regenerate Prisma client               |
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## API quick reference
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `GET /api/cylinders?page=1&pageSize=10&q=search` – paginated inventory.
+- `POST /api/cylinders` – create cylinder (React Hook Form payload).
+- `GET /api/transactions?type=ISSUE` – filtered movement history.
+- `POST /api/otp/request` & `POST /api/otp/verify` – OTP lifecycle.
+- `GET /api/reports/pdf` – server generated PDF snapshot.
+
+All endpoints rely on the PostgreSQL database through Prisma, so ensure migrations are applied before hitting them.
+
+---
+
+## Testing & validation
+
+- `npm run lint` validates TypeScript + React rules.
+- Charts and dashboards use live data; seed the database to visualise the complete layout.
+- OTP emailing requires working SMTP credentials; otherwise the UI will show warnings but continue gracefully.

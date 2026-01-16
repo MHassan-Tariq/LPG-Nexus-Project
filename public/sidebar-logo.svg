@@ -1,0 +1,19 @@
+<svg width="200" height="60" viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sidebar-red" x1="18" y1="138" x2="72" y2="18" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E52D27"/>
+      <stop offset="1" stop-color="#F7941D"/>
+    </linearGradient>
+    <linearGradient id="sidebar-blue" x1="70" y1="18" x2="130" y2="140" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4AA5F8"/>
+      <stop offset="1" stop-color="#0057A4"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(-6,-80) scale(0.45)">
+    <path d="M52 16C30 44 28 62 32 77C36.5 94.5 24 110 14 116C32 122 54 118 66 94C76 74 72 40 52 16Z" fill="url(#sidebar-red)"/>
+    <path d="M74 14C96 40 104 60 102 82C100 106 84 120 58 120C94 120 118 92 118 64C118 40 102 20 82 14C80 13.5 76 14 74 14Z" fill="url(#sidebar-blue)"/>
+    <path d="M64 18C84 48 82 78 70 102C62 118 50 124 36 124C66 122 84 94 84 64C84 46 76 30 64 18Z" fill="white" fill-opacity="0.92"/>
+  </g>
+  <text x="84" y="27" font-family="'Inter', 'Segoe UI', sans-serif" font-size="22" font-weight="600" fill="#1F2D3D">LPG Nexus</text>
+  <text x="84" y="43" font-family="'Inter', 'Segoe UI', sans-serif" font-size="15" font-weight="500" fill="#8C9AB5">Management System</text>
+</svg>
