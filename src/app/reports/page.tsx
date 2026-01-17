@@ -27,7 +27,10 @@ export default async function ReportsPage({ searchParams }: ReportsPageProps) {
       },
     });
     softwareName = softwareNameSetting?.value || "LPG Nexus";
-  } catch (error) {
+  } catch (error: any) {
+    if (error?.digest?.includes('DYNAMIC') || error?.message?.includes('dynamic') || error?.message?.includes('bailout')) {
+      throw error;
+    }
     console.error("Error fetching software name:", error);
     // Use default value if query fails
     softwareName = "LPG Nexus";

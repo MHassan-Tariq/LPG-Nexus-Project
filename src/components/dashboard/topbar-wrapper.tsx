@@ -21,7 +21,10 @@ export async function DashboardTopbarWrapper() {
       if (softwareNameSetting?.value) {
         softwareName = softwareNameSetting.value;
       }
-    } catch (error) {
+    } catch (error: any) {
+      if (error?.digest?.includes('DYNAMIC') || error?.message?.includes('dynamic') || error?.message?.includes('bailout')) {
+        throw error;
+      }
       console.error("Error fetching topbar settings:", error);
     }
   }

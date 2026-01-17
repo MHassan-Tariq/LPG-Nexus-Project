@@ -36,7 +36,10 @@ export async function DashboardSidebarWrapper() {
         softwareName = softwareNameSetting.value;
       }
       softwareLogo = logoSetting ? (logoSetting.value || null) : null;
-    } catch (error) {
+    } catch (error: any) {
+      if (error?.digest?.includes('DYNAMIC') || error?.message?.includes('dynamic') || error?.message?.includes('bailout')) {
+        throw error;
+      }
       console.error("Error fetching sidebar settings:", error);
       // Fallback to defaults -> already set
     }
