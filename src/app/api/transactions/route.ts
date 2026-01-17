@@ -36,9 +36,9 @@ export async function GET(request: Request) {
     const searchFilter = pagination.q
       ? {
           OR: [
-            { cylinder: { serialNumber: { contains: pagination.q, mode: "insensitive" } } },
-            { customer: { name: { contains: pagination.q, mode: "insensitive" } } },
-            { notes: { contains: pagination.q, mode: "insensitive" } },
+            { cylinder: { serialNumber: { contains: pagination.q, mode: "insensitive" as const } } },
+            { customer: { name: { contains: pagination.q, mode: "insensitive" as const } } },
+            { notes: { contains: pagination.q, mode: "insensitive" as const } },
           ],
         }
       : {};

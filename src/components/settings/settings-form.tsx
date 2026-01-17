@@ -33,7 +33,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
   const [logoPreview, setLogoPreview] = useState<string | null>(initialSettings.softwareLogo);
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
+  const [notification, setNotification] = useState<{ message: string; type: "success" | "error" } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const form = useForm<SettingsFormValues>({
@@ -44,11 +44,11 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
   });
 
   useEffect(() => {
-    if (toast) {
-      const timer = setTimeout(() => setToast(null), 5000);
+    if (notification) {
+      const timer = setTimeout(() => setNotification(null), 5000);
       return () => clearTimeout(timer);
     }
-  }, [toast]);
+  }, [notification]);
 
   function handleLogoSelect(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
@@ -56,13 +56,13 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
       // Validate file type
       const validTypes = ["image/jpeg", "image/jpg", "image/png", "image/svg+xml"];
       if (!validTypes.includes(file.type)) {
-        setToast({ message: "Please select a PNG, JPG, or SVG file", type: "error" });
+        setNotification({ message: "Please select a PNG, JPG, or SVG file", type: "error" });
         return;
       }
 
       // Validate file size (5MB = 5 * 1024 * 1024 bytes)
       if (file.size > 5 * 1024 * 1024) {
-        setToast({ message: "File size must be less than 5MB", type: "error" });
+        setNotification({ message: "File size must be less than 5MB", type: "error" });
         return;
       }
 
@@ -119,7 +119,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
 
       if (result.success) {
         toast.warning("Settings saved successfully.");
-        setToast({ message: result.message || "Settings saved successfully!", type: "success" });
+        setNotification({ message: result.message || "Settings saved successfully!", type: "success" });
         // Update local state with saved values
         initialSettings.softwareName = data.softwareName.trim();
         if (logoDataUrl) {
@@ -139,7 +139,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
       } else {
         const errorMsg = result.error || "Failed to save settings. Please check the browser console for details.";
         toast.error(errorMsg);
-        setToast({ 
+        setNotification({ 
           message: errorMsg, 
           type: "error" 
         });
@@ -149,7 +149,7 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
       console.error("Error in onSubmit:", error);
       const errorMsg = error instanceof Error ? error.message : "Failed to save settings";
       toast.error(errorMsg);
-      setToast({
+      setNotification({
         message: errorMsg,
         type: "error",
       });
@@ -189,23 +189,23 @@ export function SettingsForm({ initialSettings }: SettingsFormProps) {
   return (
     <div className="flex flex-col gap-6">
       {/* Toast Notification */}
-      {toast && (
+      {notification && (
         <div
           className={cn(
             "fixed right-6 top-20 z-50 flex items-center gap-3 rounded-xl border px-4 py-3 shadow-lg transition-all",
-            toast.type === "success"
+            notification.type === "success"
               ? "border-green-200 bg-green-50 text-green-800"
               : "border-red-200 bg-red-50 text-red-800",
           )}
         >
-          {toast.type === "success" ? (
+          {notification.type === "success" ? (
             <Check className="h-5 w-5" />
           ) : (
             <X className="h-5 w-5" />
           )}
-          <span className="text-sm font-medium">{toast.message}</span>
+          <span className="text-sm font-medium">{notification.message}</span>
           <button
-            onClick={() => setToast(null)}
+            onClick={() => setNotification(null)}
             className="ml-auto text-current opacity-70 hover:opacity-100"
           >
             <X className="h-4 w-4" />

@@ -15,6 +15,7 @@ interface AddCylinderClientProps {
   page: number;
   totalPages: number;
   customers: CylinderCustomerOption[];
+  pageSize: number;
 }
 
 export function AddCylinderClient({
@@ -24,6 +25,7 @@ export function AddCylinderClient({
   page,
   totalPages,
   customers,
+  pageSize,
 }: AddCylinderClientProps) {
   const router = useRouter();
   const [selectedEntry, setSelectedEntry] = useState<CylinderEntryRow | null>(null);
@@ -119,6 +121,7 @@ export function AddCylinderClient({
             totalPages={totalPages}
             onView={handleView}
             onEdit={handleEdit}
+            pageSize={pageSize}
           />
         </div>
       </section>

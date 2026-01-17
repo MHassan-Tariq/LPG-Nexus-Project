@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { OverviewCards } from "@/components/dashboard/overview-cards";
 import { PaymentLogsTable } from "@/components/dashboard/payment-logs";
+import { PaymentEventType } from "@prisma/client";
 
 interface DashboardClientProps {
   initialMetrics: {
@@ -29,7 +30,7 @@ interface DashboardClientProps {
     billEndDate: string;
     amount: string;
     performedAt: string;
-    eventType: string;
+    eventType: PaymentEventType;
     details: string;
   }>;
 }

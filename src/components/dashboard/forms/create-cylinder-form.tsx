@@ -85,7 +85,7 @@ export function CreateCylinderForm({ customers }: CreateCylinderFormProps) {
         notes: values.notes,
       };
 
-      const response = await apiFetch("/api/cylinders", {
+      const response = await fetch("/api/cylinders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -97,7 +97,7 @@ export function CreateCylinderForm({ customers }: CreateCylinderFormProps) {
         throw new Error(errorMsg);
       }
 
-      log.info("Cylinder created successfully", { serialNumber: payload.serialNumber });
+      console.log("Cylinder created successfully", { serialNumber: payload.serialNumber });
       toast.success("Cylinder registered successfully.");
       setStatus("success");
       setMessage("Cylinder registered successfully.");

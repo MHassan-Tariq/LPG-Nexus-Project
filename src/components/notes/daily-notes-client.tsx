@@ -112,7 +112,7 @@ export function DailyNotesClient({ selectedDateISO, initialNote, summary, availa
           ...prev,
           currentStatus: "Saved",
           totalNotes: hasExistingRecord ? prev.totalNotes : prev.totalNotes + 1,
-          lastModified: result.updatedAt ?? prev.lastModified,
+          lastModified: result.updatedAt ? new Date(result.updatedAt).toISOString() : prev.lastModified,
         }));
         setHasExistingRecord(true);
         setTimeout(() => setMessage(null), 2500);

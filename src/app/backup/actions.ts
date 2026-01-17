@@ -99,6 +99,8 @@ export async function generateBackup() {
 
 export async function restoreBackup(jsonData: string, fileName: string) {
   try {
+    const currentAdminId = await getTenantIdForCreate();
+
     // Validate that we have data
     if (!jsonData || jsonData.trim().length === 0) {
       throw new Error("Backup file is empty. Please select a valid backup file.");
@@ -241,6 +243,7 @@ export async function restoreBackup(jsonData: string, fileName: string) {
               address: customer.address ?? null,
               createdAt: customer.createdAt ? new Date(customer.createdAt) : new Date(),
               updatedAt: customer.updatedAt ? new Date(customer.updatedAt) : new Date(),
+              adminId: customer.adminId || currentAdminId,
             };
           }),
           skipDuplicates: true,
@@ -277,6 +280,7 @@ export async function restoreBackup(jsonData: string, fileName: string) {
             customerId: cylinder.customerId ?? null,
             createdAt: cylinder.createdAt ? new Date(cylinder.createdAt) : new Date(),
             updatedAt: cylinder.updatedAt ? new Date(cylinder.updatedAt) : new Date(),
+            adminId: cylinder.adminId || currentAdminId,
           })),
           skipDuplicates: true,
         });
@@ -298,6 +302,7 @@ export async function restoreBackup(jsonData: string, fileName: string) {
             customerId: transaction.customerId ?? null,
             userId: transaction.userId ?? null,
             createdAt: transaction.createdAt ? new Date(transaction.createdAt) : new Date(),
+            adminId: transaction.adminId || currentAdminId,
           })),
           skipDuplicates: true,
         });
@@ -323,6 +328,7 @@ export async function restoreBackup(jsonData: string, fileName: string) {
             description: entry.description ?? null,
             deliveryDate: entry.deliveryDate ? new Date(entry.deliveryDate) : new Date(),
             createdAt: entry.createdAt ? new Date(entry.createdAt) : new Date(),
+            adminId: entry.adminId || currentAdminId,
           })),
           skipDuplicates: true,
         });
@@ -342,6 +348,7 @@ export async function restoreBackup(jsonData: string, fileName: string) {
             expenseDate: expense.expenseDate || expense.date ? new Date(expense.expenseDate || expense.date) : new Date(),
             createdAt: expense.createdAt ? new Date(expense.createdAt) : new Date(),
             updatedAt: expense.updatedAt ? new Date(expense.updatedAt) : new Date(),
+            adminId: expense.adminId || currentAdminId,
           })),
           skipDuplicates: true,
         });
@@ -363,6 +370,7 @@ export async function restoreBackup(jsonData: string, fileName: string) {
             status: bill.status ?? "PENDING",
             createdAt: bill.createdAt ? new Date(bill.createdAt) : new Date(),
             updatedAt: bill.updatedAt ? new Date(bill.updatedAt) : new Date(),
+            adminId: bill.adminId || currentAdminId,
           })),
           skipDuplicates: true,
         });
@@ -381,6 +389,7 @@ export async function restoreBackup(jsonData: string, fileName: string) {
             method: payment.method ?? "bank_transfer",
             notes: payment.notes ?? null,
             createdAt: payment.createdAt ? new Date(payment.createdAt) : new Date(),
+            adminId: payment.adminId || currentAdminId,
           })),
           skipDuplicates: true,
         });
@@ -404,6 +413,7 @@ export async function restoreBackup(jsonData: string, fileName: string) {
             billEndDate: log.billEndDate ? new Date(log.billEndDate) : null,
             performedAt: log.performedAt ? new Date(log.performedAt) : new Date(),
             createdAt: log.createdAt ? new Date(log.createdAt) : new Date(),
+            adminId: log.adminId || currentAdminId,
           })),
           skipDuplicates: true,
         });
@@ -425,6 +435,7 @@ export async function restoreBackup(jsonData: string, fileName: string) {
             verified: item.verified ?? false,
             entryDate: item.entryDate || item.receivedDate ? new Date(item.entryDate || item.receivedDate) : new Date(),
             createdAt: item.createdAt ? new Date(item.createdAt) : new Date(),
+            adminId: item.adminId || currentAdminId,
           })),
           skipDuplicates: true,
         });
@@ -444,6 +455,7 @@ export async function restoreBackup(jsonData: string, fileName: string) {
             characterCount: note.characterCount ?? 0,
             createdAt: note.createdAt ? new Date(note.createdAt) : new Date(),
             updatedAt: note.updatedAt ? new Date(note.updatedAt) : new Date(),
+            adminId: note.adminId || currentAdminId,
           })),
           skipDuplicates: true,
         });
@@ -577,7 +589,7 @@ export async function setBackupFolderPath(path: string) {
     await prisma.systemSettings.upsert({
       where: {
         adminId_key: {
-          adminId: adminId || null,
+          adminId: (adminId || null) as any,
           key: "backup_folder_path",
         },
       },
@@ -604,7 +616,7 @@ export async function getAdminEmail() {
     // Get the first admin user (super admin)
     const admin = await prisma.user.findFirst({
       where: {
-        role: "admin",
+        role: "ADMIN",
       },
       orderBy: {
         createdAt: "asc", // Get the oldest admin (likely the super admin)
@@ -628,7 +640,7 @@ export async function getAdminUsername() {
     // Get the first admin user (super admin)
     const admin = await prisma.user.findFirst({
       where: {
-        role: "admin",
+        role: "ADMIN",
       },
       orderBy: {
         createdAt: "asc",
@@ -711,7 +723,7 @@ export async function performFactoryReset(otpCode: string) {
     // Get the super admin user to preserve it
     const superAdmin = await prisma.user.findFirst({
       where: {
-        role: "admin",
+        role: "ADMIN",
       },
       orderBy: {
         createdAt: "asc",

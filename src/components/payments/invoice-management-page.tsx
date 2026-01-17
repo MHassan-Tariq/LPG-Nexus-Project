@@ -565,14 +565,14 @@ export function InvoiceManagementPage({ bills, initialCustomerFilter }: InvoiceM
                                 {/* Select All for this bill's entries */}
                                 <div className="flex items-center gap-2 pb-2 border-b border-slate-200">
                                   <Checkbox
-                                    checked={bill.cylinderEntries.every((entry) => selectedEntryIds.has(entry.id))}
+                                    checked={bill.cylinderEntries?.every((entry) => selectedEntryIds.has(entry.id)) ?? false}
                                     onCheckedChange={(checked) => {
                                       setSelectedEntryIds((prev) => {
                                         const next = new Set(prev);
                                         if (checked) {
-                                          bill.cylinderEntries.forEach((entry) => next.add(entry.id));
+                                          bill.cylinderEntries?.forEach((entry) => next.add(entry.id));
                                         } else {
-                                          bill.cylinderEntries.forEach((entry) => next.delete(entry.id));
+                                          bill.cylinderEntries?.forEach((entry) => next.delete(entry.id));
                                         }
                                         return next;
                                       });

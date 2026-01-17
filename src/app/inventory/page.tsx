@@ -76,7 +76,7 @@ export default async function InventoryPage({ searchParams }: InventoryPageProps
   };
 
   // Build where clause for Prisma query
-  let where = baseWhere;
+  let where: any = baseWhere;
   if (shouldFilterByDate) {
     // Both month and year are specific
     const monthFilter = parseMonthYear(month, year);
@@ -244,7 +244,7 @@ export default async function InventoryPage({ searchParams }: InventoryPageProps
 }
 
 function createPaginationHref(params: Record<string, string | undefined>, nextPage: number) {
-  const next = new URLSearchParams(params);
+  const next = new URLSearchParams(params as any);
   next.set("page", String(nextPage));
   return `/inventory?${next.toString()}`;
 }

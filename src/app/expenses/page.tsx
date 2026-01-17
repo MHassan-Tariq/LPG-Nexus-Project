@@ -80,7 +80,7 @@ export default async function ExpensesPage({ searchParams }: ExpensesPageProps) 
   };
 
   // Build where clause for Prisma query
-  let where = baseWhere;
+  let where: any = baseWhere;
   if (shouldFilterByDate) {
     // Both month and year are specific
     where = {

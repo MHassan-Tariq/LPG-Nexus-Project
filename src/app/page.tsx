@@ -1,4 +1,4 @@
-import { PaymentEventType } from "@prisma/client";
+import { PaymentEventType, BillStatus } from "@prisma/client";
 import { format, subDays, startOfMonth, endOfMonth, startOfYear, endOfYear, parse, getMonth } from "date-fns";
 import { prisma } from "@/lib/prisma";
 import { DashboardSidebarWrapper } from "@/components/dashboard/sidebar-wrapper";
@@ -65,7 +65,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
   const billsWhere = {
     ...tenantFilter,
     status: {
-      in: ["NOT_PAID", "PARTIALLY_PAID"],
+      in: [BillStatus.NOT_PAID, BillStatus.PARTIALLY_PAID],
     },
     ...(dateFilter ? {
       // Bill overlaps with date range if: billStartDate <= filterEndDate AND billEndDate >= filterStartDate
@@ -168,7 +168,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
           where: {
             ...tenantFilter,
             status: {
-              in: ["NOT_PAID", "PARTIALLY_PAID"],
+              in: [BillStatus.NOT_PAID, BillStatus.PARTIALLY_PAID],
             },
           },
           include: {
@@ -202,6 +202,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
           where: paymentsWhere,
           select: {
             amount: true,
+            createdAt: true,
           },
         }),
     // Fetch all cylinder entries for month-only filtering, or use filtered query
@@ -221,6 +222,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
             cylinderType: true,
             quantity: true,
             emptyCylinderReceived: true,
+            deliveryDate: true,
           },
         }),
   ]);

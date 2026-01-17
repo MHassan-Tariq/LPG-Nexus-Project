@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Shield, Eye, EyeOff, Lock, Mail, User } from "lucide-react";
+import { Shield, Eye, EyeOff, Lock, Mail, User, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -37,7 +37,7 @@ export function SuperAdminResetAccessCode() {
     // Fetch user info using the token
     async function fetchUserInfo() {
       try {
-        const response = await fetch(`/api/super-admin/get-user-info?email=${encodeURIComponent(email)}`);
+        const response = await fetch(`/api/super-admin/get-user-info?email=${encodeURIComponent(email as string)}`);
         if (response.ok) {
           const data = await response.json();
           setUserInfo(data.user);

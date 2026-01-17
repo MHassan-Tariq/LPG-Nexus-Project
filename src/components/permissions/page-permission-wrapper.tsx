@@ -10,7 +10,7 @@ interface PagePermissionWrapperProps {
 
 export function PagePermissionWrapper({ children, pathname }: PagePermissionWrapperProps) {
   // Get module ID from pathname if provided, otherwise PermissionGuard will get it from usePathname
-  const moduleId = pathname ? getModuleFromRoute(pathname) : undefined;
+  const moduleId = pathname ? (getModuleFromRoute(pathname) ?? undefined) : undefined;
   
   return (
     <PermissionGuard moduleId={moduleId}>

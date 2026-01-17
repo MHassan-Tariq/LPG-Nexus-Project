@@ -23,8 +23,8 @@ async function downloadPdf(path: string, filename: string) {
 }
 
 interface PaymentActionsBarProps {
-  from: Date;
-  to: Date;
+  from?: Date;
+  to?: Date;
 }
 
 export function PaymentActionsBar({ from, to }: PaymentActionsBarProps) {

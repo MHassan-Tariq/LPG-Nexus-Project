@@ -57,12 +57,12 @@ export default async function NotesPage({ searchParams }: NotesPageProps) {
     labels: noteRecord?.labels ?? [],
     characterCount: noteRecord?.characterCount ?? 0,
     lastModified: noteRecord?.updatedAt?.toISOString() ?? null,
-    status: noteRecord ? "Saved" : "Not saved",
+    status: (noteRecord ? "Saved" : "Not saved") as "Saved" | "Not saved",
   };
 
   const summary = {
     totalNotes,
-    currentStatus: noteRecord ? "Saved" : "Not saved",
+    currentStatus: (noteRecord ? "Saved" : "Not saved") as "Saved" | "Not saved",
     lastModified: noteRecord?.updatedAt?.toISOString() ?? null,
   };
 

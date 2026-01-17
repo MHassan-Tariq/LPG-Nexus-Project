@@ -104,7 +104,7 @@ export default async function PaymentsPage({ searchParams }: PaymentsPageProps) 
   };
 
   // Build where clause for Prisma query
-  let where = baseWhere;
+  let where: any = baseWhere;
   if (shouldFilterByDate) {
     // Both from and to dates are set (specific month/year)
     where = {
@@ -255,7 +255,7 @@ export default async function PaymentsPage({ searchParams }: PaymentsPageProps) 
 }
 
 function createPaginationHref(params: Record<string, string | undefined>, nextPage: number) {
-  const next = new URLSearchParams(params);
+  const next = new URLSearchParams(params as any);
   next.set("page", String(nextPage));
   return `/payments?${next.toString()}`;
 }

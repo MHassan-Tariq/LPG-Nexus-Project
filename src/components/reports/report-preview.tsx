@@ -44,7 +44,6 @@ interface FooterConfig {
   alignment: "left" | "center" | "right";
   signatureLabel: string;
   showSignature: boolean;
-  showSignatureLine: boolean;
   signatureAlignment: "left" | "center" | "right";
   signatureLineSpacing: number;
   topMargin?: number;
@@ -159,7 +158,7 @@ export function ReportPreview({ headerConfig, footerConfig }: ReportPreviewProps
               className="mt-4"
               style={{
                 borderTopWidth: `${headerConfig.dividerThickness}px`,
-                borderTopStyle: dividerStyleMap[headerConfig.dividerStyle],
+                borderTopStyle: dividerStyleMap[headerConfig.dividerStyle] as any,
                 borderTopColor: headerConfig.dividerColor,
               }}
             />

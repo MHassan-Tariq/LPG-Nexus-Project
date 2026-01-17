@@ -213,7 +213,7 @@ export default async function PaymentLogsPage({ searchParams }: PaymentLogsPageP
 }
 
 function createPaginationHref(params: Record<string, string | undefined>, nextPage: number) {
-  const next = new URLSearchParams(params);
+  const next = new URLSearchParams(params as any);
   next.set("page", String(nextPage));
   return `/payment-logs?${next.toString()}`;
 }

@@ -59,7 +59,7 @@ export async function GET(request: Request) {
 
     // Build search filter using core utility
     const searchFilter = buildTextSearchFilter(
-      pagination.q || searchParams.get("search"),
+      pagination.q || searchParams.get("search") || undefined,
       ["name", "email", "phone", "businessName"]
     );
     

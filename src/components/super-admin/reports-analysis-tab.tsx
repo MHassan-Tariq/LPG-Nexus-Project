@@ -157,12 +157,12 @@ export function ReportsAnalysisTab() {
     }
   };
 
-  const handleExport = async (format: "pdf" | "excel") => {
+  const handleExport = async (fileFormat: "pdf" | "excel") => {
     try {
       const params = new URLSearchParams();
       params.append("from", dateRange.from.toISOString());
       params.append("to", dateRange.to.toISOString());
-      params.append("format", format);
+      params.append("format", fileFormat);
       if (selectedModule !== "all") params.append("module", selectedModule);
       if (selectedUser !== "all") params.append("userId", selectedUser);
       if (selectedActionType !== "all") params.append("actionType", selectedActionType);
@@ -174,7 +174,7 @@ export function ReportsAnalysisTab() {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `super-admin-reports-${format}-${format(new Date(), "yyyy-MM-dd")}.${format === "pdf" ? "pdf" : "xlsx"}`;
+        a.download = `super-admin-reports-${fileFormat}-${format(new Date(), "yyyy-MM-dd")}.${fileFormat === "pdf" ? "pdf" : "xlsx"}`;
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);

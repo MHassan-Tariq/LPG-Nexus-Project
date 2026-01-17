@@ -15,7 +15,7 @@ interface CustomerTableWrapperProps {
   query: string;
   page: number;
   totalPages: number;
-  pageSize: number;
+  pageSize: number | string;
   onCreateCustomer: (values: CustomerFormValues) => Promise<void>;
   nextCustomerCode: number;
   basePath?: string;
@@ -60,7 +60,7 @@ export function CustomerTableWrapper({
             country: customer.country,
             address: customer.address,
             notes: customer.notes,
-            additionalContacts: customer.additionalContacts && customer.additionalContacts.length > 0
+            additionalContacts: Array.isArray(customer.additionalContacts) && (customer.additionalContacts as any[]).length > 0
               ? customer.additionalContacts
               : [{ name: "", contactNumber: customer.contactNumber || "" }],
             status: customer.status,

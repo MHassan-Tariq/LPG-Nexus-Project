@@ -127,7 +127,7 @@ export function BillPreview({ bill }: BillPreviewProps) {
         const result = await getBillTemplateDesign();
         if (result.success) {
           // Use saved design if available, otherwise use default
-          const finalDesign = result.data || defaultDesign;
+          const finalDesign = (result.data || defaultDesign) as any;
           setDesign(finalDesign);
           // Load logo, barcode, and QR code from design
           setLogo(finalDesign.customLogo || null);

@@ -53,11 +53,12 @@ export function CylinderBillPreview({ entry }: CylinderBillPreviewProps) {
       const result = await getBillTemplateDesign();
       
       if (result.success && result.data) {
-        setDesign(result.data);
+        const designData = result.data as any;
+        setDesign(designData);
         // Load logo, barcode, and QR code from design
-        setLogo(result.data.customLogo || null);
-        setBarcode(result.data.customBarcode || null);
-        setQrCode(result.data.customQRCode || null);
+        setLogo(designData.customLogo || null);
+        setBarcode(designData.customBarcode || null);
+        setQrCode(designData.customQRCode || null);
       } else {
         // If no design is saved, use default design
         const defaultDesign = {

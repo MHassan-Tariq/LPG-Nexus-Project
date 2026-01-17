@@ -197,7 +197,7 @@ export function AddCylinderWrapper({
         // RECEIVED type fields - properly handle null/undefined values
         // For RECEIVED entries, paymentType should be undefined if not set (checkbox controls visibility)
         paymentType: editingEntry.cylinderType === "RECEIVED" 
-          ? (editingEntry.paymentType ?? undefined)
+          ? (editingEntry.paymentType as any) ?? undefined
           : undefined,
         paymentAmount: editingEntry.paymentAmount ?? (editingEntry.cylinderType === "RECEIVED" ? 0 : undefined),
         paymentReceivedBy: editingEntry.paymentReceivedBy ?? "",
