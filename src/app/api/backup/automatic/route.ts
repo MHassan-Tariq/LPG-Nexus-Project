@@ -4,6 +4,8 @@ import { generateBackup } from "@/app/backup/actions";
 import { createUnauthorizedResponse, createErrorResponse } from "@/core/api/api-errors";
 import { successResponse } from "@/core/api/api-response";
 
+export const dynamic = "force-dynamic";
+
 // This endpoint can be called by a cron job service (e.g., Vercel Cron, GitHub Actions, etc.)
 // to perform automatic daily backups at 12 AM
 export async function POST(request: Request) {

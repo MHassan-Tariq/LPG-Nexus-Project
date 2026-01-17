@@ -5,6 +5,8 @@ import { getTenantIdForCreate } from "@/lib/tenant-utils";
 // Core utilities
 import { createErrorResponse } from "@/core/api/api-errors";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     // Fetch ALL data from ALL database tables independently

@@ -3,6 +3,9 @@ import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { getTenantIdForCreate } from "@/lib/tenant-utils";
+
+export const dynamic = "force-dynamic";
+
 import { getTenantFilter } from "@/core/tenant/tenant-queries";
 // Core utilities
 import { createErrorResponse } from "@/core/api/api-errors";
