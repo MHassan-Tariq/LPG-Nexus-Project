@@ -4,6 +4,9 @@
  * This demonstrates how to use rate limiting in API routes.
  */
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import { NextRequest, NextResponse } from 'next/server';
 import { createRateLimiter, RateLimitPresets } from '@/lib/rate-limiter';
 import { createSecureResponse } from '@/lib/security-headers';

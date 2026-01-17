@@ -11,6 +11,9 @@ import { redirect } from "next/navigation";
 import { getTenantIdForCreate } from "@/lib/tenant-utils";
 import { getTenantFilter } from "@/core/tenant/tenant-queries";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 const DEFAULT_PAGE_SIZE = 5;
 const PAGE_SIZE_OPTIONS = [5, 10, 20, 50, 100, "all"];
 

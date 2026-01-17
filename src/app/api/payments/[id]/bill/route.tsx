@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import { NextResponse } from "next/server";
 import { Buffer } from "node:buffer";
 import { Document, Page, Text, View, StyleSheet, renderToStream } from "@react-pdf/renderer";

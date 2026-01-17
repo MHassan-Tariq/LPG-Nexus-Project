@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import { DashboardSidebarWrapper } from "@/components/dashboard/sidebar-wrapper";
 import { DashboardTopbarWrapper } from "@/components/dashboard/topbar-wrapper";
 import { ReportsClient } from "@/components/reports/reports-client";

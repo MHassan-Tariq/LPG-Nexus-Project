@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import { startOfMonth, endOfMonth, startOfYear, endOfYear, getMonth, parse } from "date-fns";
 
 import { PaymentLogsTable, type PaymentLogItem } from "@/components/payment-logs/payment-logs-table";

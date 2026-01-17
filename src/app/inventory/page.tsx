@@ -1,4 +1,8 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import { Suspense } from "react";
+
 import { startOfMonth, endOfMonth, startOfYear, endOfYear, parse, getMonth } from "date-fns";
 
 import { InventoryForm } from "@/components/inventory/inventory-form";

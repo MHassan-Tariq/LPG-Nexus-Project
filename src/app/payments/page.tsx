@@ -8,6 +8,10 @@ import { PageSizeSelect } from "@/components/payments/page-size-select";
 import { Pagination, PaginationInfo } from "@/components/ui/pagination";
 import { DashboardSidebarWrapper } from "@/components/dashboard/sidebar-wrapper";
 import { DashboardTopbarWrapper } from "@/components/dashboard/topbar-wrapper";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+import { Suspense } from "react";
 import { prisma } from "@/lib/prisma";
 import { enforcePagePermission } from "@/lib/permission-check";
 import { getTenantFilter } from "@/core/tenant/tenant-queries";

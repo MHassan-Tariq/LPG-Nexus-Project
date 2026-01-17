@@ -20,6 +20,10 @@
 
 import { CylinderFormValues } from "@/components/add-cylinder/cylinder-form";
 import { AddCylinderWrapper } from "@/components/add-cylinder/add-cylinder-wrapper";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+import { Suspense } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { DashboardSidebarWrapper } from "@/components/dashboard/sidebar-wrapper";

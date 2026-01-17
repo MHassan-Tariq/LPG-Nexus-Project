@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import { startOfMonth, endOfMonth, startOfYear, endOfYear, parse, getMonth, getYear } from "date-fns";
 
 import { ExpensesBoard } from "@/components/expenses/expenses-board";

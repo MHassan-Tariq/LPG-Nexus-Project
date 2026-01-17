@@ -1,5 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { enforcePagePermission } from "@/lib/permission-check";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import { DashboardSidebarWrapper } from "@/components/dashboard/sidebar-wrapper";
 import { DashboardTopbarWrapper } from "@/components/dashboard/topbar-wrapper";
 import { InvoiceManagementPage } from "@/components/payments/invoice-management-page";

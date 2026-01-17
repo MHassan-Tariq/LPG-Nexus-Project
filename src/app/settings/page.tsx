@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import { DashboardSidebarWrapper } from "@/components/dashboard/sidebar-wrapper";
 import { DashboardTopbarWrapper } from "@/components/dashboard/topbar-wrapper";
 import { SettingsTabs } from "@/components/settings/settings-tabs";
@@ -5,8 +8,6 @@ import { Settings } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { enforcePagePermission } from "@/lib/permission-check";
 import { getSystemSettingsFilter } from "@/lib/tenant-utils";
-
-export const dynamic = "force-dynamic";
 
 export default async function SettingsPage() {
   // Check permissions before rendering

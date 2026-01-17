@@ -4,6 +4,9 @@
  * Provides CSRF token for client-side use.
  */
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import { NextResponse } from 'next/server';
 import { getCsrfToken } from '@/lib/csrf';
 import { createSecureResponse } from '@/lib/security-headers';

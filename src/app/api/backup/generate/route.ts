@@ -1,11 +1,12 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import { NextResponse } from "next/server";
 import { format } from "date-fns";
 import { prisma } from "@/lib/prisma";
 import { getTenantIdForCreate } from "@/lib/tenant-utils";
 // Core utilities
 import { createErrorResponse } from "@/core/api/api-errors";
-
-export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {

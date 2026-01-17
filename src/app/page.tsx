@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import { PaymentEventType, BillStatus } from "@prisma/client";
 import { format, subDays, startOfMonth, endOfMonth, startOfYear, endOfYear, parse, getMonth } from "date-fns";
 import { prisma } from "@/lib/prisma";

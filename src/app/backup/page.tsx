@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import { format } from "date-fns";
 
 import { DashboardSidebarWrapper } from "@/components/dashboard/sidebar-wrapper";

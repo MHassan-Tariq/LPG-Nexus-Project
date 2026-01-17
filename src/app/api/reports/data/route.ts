@@ -1,4 +1,8 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import { NextRequest, NextResponse } from "next/server";
+
 import { getReportsData } from "../get-reports-data";
 // Core utilities
 import { createErrorResponse } from "@/core/api/api-errors";

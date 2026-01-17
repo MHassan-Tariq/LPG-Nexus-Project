@@ -96,7 +96,12 @@ export async function getCurrentUser(): Promise<JWTPayload | null> {
     }
 
     return await verifyToken(token);
-  } catch (error) {
+  } catch (error: any) {
+    // If it's a dynamic server usage error from Next.js, rethrow it
+    // so Next.js can correctly handle dynamic bailout during build
+    if (error?.digest === 'DYNAMIC_SERVER_USAGE' || error?.message?.includes('dynamic-server-error')) {
+      throw error;
+    }
     return null;
   }
 }
