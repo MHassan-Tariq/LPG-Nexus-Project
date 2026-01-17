@@ -251,7 +251,7 @@ export async function GET(request: Request, { params }: Params) {
     const tableFontSize = design?.tableFontSize || 14;
     const tableFontWeight = getFontWeight(design?.tableFontWeight || "normal");
     
-    const pageSize = design?.pageSize === "A5" ? "A5" : design?.pageSize === "Letter" ? "Letter" : "A4";
+    const pageSize = design?.pageSize === "A5" ? "A5" : design?.pageSize === "Letter" ? "LETTER" : "A4";
     const orientation = design?.orientation === "landscape" ? "landscape" : "portrait";
     const pageMargins = design?.pageMargins || { top: 20, bottom: 20, left: 20, right: 20 };
     

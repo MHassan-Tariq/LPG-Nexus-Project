@@ -81,7 +81,7 @@ export async function POST(request: Request) {
         const invoiceNumber = await generateInvoiceNumber();
 
         // Generate PDF buffer
-        const pdfBuffer = await generateBillPDF(bill);
+        const pdfBuffer = await generateBillPDF(bill as any);
 
         // Save PDF to disk and get the public URL path
         const pdfUrl = await saveInvoicePDF(invoiceNumber, pdfBuffer);

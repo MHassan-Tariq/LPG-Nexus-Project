@@ -73,7 +73,7 @@ export async function GET(_: Request, { params }: Params) {
     try {
       const pdfBuffer = await readFile(filePath);
 
-      return new NextResponse(pdfBuffer, {
+      return new NextResponse(pdfBuffer as any, {
         headers: {
           "Content-Type": "application/pdf",
           "Content-Disposition": `attachment; filename="${invoice.invoiceNumber}.pdf"`,
@@ -87,7 +87,7 @@ export async function GET(_: Request, { params }: Params) {
       
       // Regenerate PDF
       const { generateBillPDF, saveInvoicePDF } = await import("@/lib/invoice-utils");
-      const pdfBuffer = await generateBillPDF(invoice.bill);
+      const pdfBuffer = await generateBillPDF(invoice.bill as any);
       await saveInvoicePDF(invoice.invoiceNumber, pdfBuffer);
 
       // Update invoice record
@@ -96,7 +96,7 @@ export async function GET(_: Request, { params }: Params) {
         data: { pdfUrl: invoice.pdfUrl }, // Keep same URL
       });
 
-      return new NextResponse(pdfBuffer, {
+      return new NextResponse(pdfBuffer as any, {
         headers: {
           "Content-Type": "application/pdf",
           "Content-Disposition": `attachment; filename="${invoice.invoiceNumber}.pdf"`,

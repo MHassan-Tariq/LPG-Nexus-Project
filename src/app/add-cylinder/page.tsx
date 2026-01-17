@@ -207,7 +207,7 @@ async function createCylinderEntry(values: CylinderFormValues) {
           description: values.description || null,
           deliveryDate: values.deliveryDate,
           // RECEIVED type fields - convert empty strings to null
-          paymentType: values.paymentType && values.paymentType !== "NONE" ? values.paymentType : null,
+          paymentType: values.paymentType || null,
           paymentAmount: values.paymentAmount && values.paymentAmount > 0 ? values.paymentAmount : null,
           paymentReceivedBy: values.paymentReceivedBy && values.paymentReceivedBy.trim() ? values.paymentReceivedBy : null,
           emptyCylinderReceived: values.emptyCylinderReceived && values.emptyCylinderReceived > 0 ? values.emptyCylinderReceived : null,

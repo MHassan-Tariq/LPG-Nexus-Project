@@ -66,51 +66,51 @@ async function main() {
   // Populate adminId for all tenant-scoped models
   const updates = await Promise.all([
     prisma.customer.updateMany({
-      where: { adminId: null },
+      where: { adminId: null as any },
       data: { adminId },
     }),
     prisma.cylinder.updateMany({
-      where: { adminId: null },
+      where: { adminId: null as any },
       data: { adminId },
     }),
     prisma.cylinderEntry.updateMany({
-      where: { adminId: null },
+      where: { adminId: null as any },
       data: { adminId },
     }),
     prisma.expense.updateMany({
-      where: { adminId: null },
+      where: { adminId: null as any },
       data: { adminId },
     }),
     prisma.inventoryItem.updateMany({
-      where: { adminId: null },
+      where: { adminId: null as any },
       data: { adminId },
     }),
     prisma.bill.updateMany({
-      where: { adminId: null },
+      where: { adminId: null as any },
       data: { adminId },
     }),
     prisma.payment.updateMany({
-      where: { adminId: null },
+      where: { adminId: null as any },
       data: { adminId },
     }),
     prisma.paymentLog.updateMany({
-      where: { adminId: null },
+      where: { adminId: null as any },
       data: { adminId },
     }),
     prisma.dailyNote.updateMany({
-      where: { adminId: null },
+      where: { adminId: null as any },
       data: { adminId },
     }),
     prisma.backup.updateMany({
-      where: { adminId: null },
+      where: { adminId: null as any },
       data: { adminId },
     }),
     prisma.restore.updateMany({
-      where: { adminId: null },
+      where: { adminId: null as any },
       data: { adminId },
     }),
     prisma.invoice.updateMany({
-      where: { adminId: null },
+      where: { adminId: null as any },
       data: { adminId },
     }),
   ]);

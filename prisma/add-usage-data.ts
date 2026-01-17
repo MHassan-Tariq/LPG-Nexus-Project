@@ -53,6 +53,7 @@ async function main() {
         cylinderId: cylinder.id,
         customerId: customer.id,
         userId: userId,
+        adminId: cylinder.adminId,
         type: TransactionType.ISSUE, // Chart only shows ISSUE transactions
         quantity: 1 + Math.floor(Math.random() * 4), // 1-4 cylinders per transaction
         recordedAt: recordedAt,

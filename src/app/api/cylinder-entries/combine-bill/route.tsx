@@ -200,7 +200,7 @@ export async function POST(request: Request) {
       if (!acc[customerId]) {
         const customer = entry.customerId ? customerMap.get(entry.customerId) : null;
         acc[customerId] = {
-          customer: customer,
+          customer: customer || null,
           customerName: entry.customerName || "Unknown Customer",
           entries: [],
         };

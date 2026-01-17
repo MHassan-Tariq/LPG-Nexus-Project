@@ -137,7 +137,7 @@ export async function GET(_: Request, { params }: Params) {
     const tableFontWeight = getFontWeight(design?.tableFontWeight || "normal");
     
     // Page settings
-    const pageSize = design?.pageSize === "A5" ? "A5" : design?.pageSize === "Letter" ? "Letter" : "A4";
+    const pageSize = design?.pageSize === "A5" ? "A5" : design?.pageSize === "Letter" ? "LETTER" : "A4";
     const orientation = design?.orientation === "landscape" ? "landscape" : "portrait";
     const pageMargins = design?.pageMargins || { top: 20, bottom: 20, left: 20, right: 20 };
     
@@ -402,20 +402,20 @@ export async function GET(_: Request, { params }: Params) {
               }]}>
                 <Text style={[
                   dynamicStyles.headerTitle,
-                  design?.headerStyle === "boxed" && {
+                  design?.headerStyle === "boxed" ? {
                     borderWidth: 2,
                     borderColor: headerColor,
                     padding: 16,
-                  },
-                  design?.headerStyle === "underline" && {
+                  } : {},
+                  design?.headerStyle === "underline" ? {
                     borderBottomWidth: 4,
                     borderBottomColor: headerColor,
-                  },
-                  design?.headerStyle === "topBorder" && {
+                  } : {},
+                  design?.headerStyle === "topBorder" ? {
                     borderTopWidth: 4,
                     borderTopColor: headerColor,
                     paddingTop: 16,
-                  },
+                  } : {},
                 ]}>
                   {headerTitle}
                 </Text>
@@ -474,7 +474,7 @@ export async function GET(_: Request, { params }: Params) {
             <View style={dynamicStyles.tableContainer}>
               <View style={dynamicStyles.tableHeader}>
                 {tableColumns.map((col: string, idx: number) => (
-                  <View key={idx} style={[dynamicStyles.tableHeaderCell, idx === tableColumns.length - 1 && { borderRightWidth: 0 }]}>
+                  <View key={idx} style={[dynamicStyles.tableHeaderCell, idx === tableColumns.length - 1 ? { borderRightWidth: 0 } : {}]}>
                     <Text>{col}</Text>
                   </View>
                 ))}

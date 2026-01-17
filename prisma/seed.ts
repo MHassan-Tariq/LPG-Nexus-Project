@@ -75,9 +75,14 @@ async function main() {
   const customers = await prisma.$transaction(
     customerSeeds.map((seed) =>
       prisma.customer.upsert({
-        where: { email: seed.email ?? `${seed.name.toLowerCase().replace(/\s+/g, "")}@example.com` },
+        where: {
+          adminId_email: {
+            adminId: admin.id,
+            email: seed.email ?? `${seed.name.toLowerCase().replace(/\s+/g, "")}@example.com`,
+          },
+        },
         update: {},
-        create: seed,
+        create: { ...seed, adminId: admin.id },
       }),
     ),
   );
@@ -85,7 +90,12 @@ async function main() {
   const cylinders = await prisma.$transaction(
     new Array(12).fill(null).map((_, idx) =>
       prisma.cylinder.upsert({
-        where: { serialNumber: `CYL-${20200 + idx}` },
+        where: {
+          adminId_serialNumber: {
+            adminId: admin.id,
+            serialNumber: `CYL-${20200 + idx}`,
+          },
+        },
         update: {},
         create: {
           serialNumber: `CYL-${20200 + idx}`,
@@ -104,6 +114,7 @@ async function main() {
           lastInspection: subDays(new Date(), 30 + idx),
           nextInspection: addDays(new Date(), 60 - idx),
           customerId: idx % 4 === 1 ? customers[idx % customers.length].id : null,
+          adminId: admin.id,
           notes:
             idx % 3 === 0
               ? "Priority shipment ready."
@@ -122,6 +133,7 @@ async function main() {
           cylinderId: cylinder.id,
           customerId: idx % customers.length === 0 ? customers[0].id : customers[1].id,
           userId: admin.id,
+          adminId: admin.id,
           type: idx % 2 === 0 ? TransactionType.ISSUE : TransactionType.RETURN,
           quantity: 1,
           recordedAt: subDays(new Date(), idx * 4),
@@ -144,6 +156,7 @@ async function main() {
         verified: true,
         description: "12kg Cylinder delivery",
         deliveryDate: subDays(new Date(), 1),
+        adminId: admin.id,
       },
       {
         billCreatedBy: "billing@lpgnexus.com",
@@ -156,6 +169,7 @@ async function main() {
         verified: false,
         description: "45kg commercial cylinder return",
         deliveryDate: subDays(new Date(), 2),
+        adminId: admin.id,
       },
       {
         billCreatedBy: "finance@lpgnexus.com",
@@ -168,6 +182,7 @@ async function main() {
         verified: true,
         description: "Industrial CO2 batch",
         deliveryDate: subDays(new Date(), 3),
+        adminId: admin.id,
       },
     ],
   });
@@ -216,7 +231,7 @@ async function main() {
   ];
 
   await prisma.expense.createMany({
-    data: expenseSeeds,
+    data: expenseSeeds.map((e) => ({ ...e, adminId: admin.id })),
     skipDuplicates: true,
   });
 

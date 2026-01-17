@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     color: "#9ca3af",
   },
   table: {
-    display: "table",
+
     width: "auto",
     borderStyle: "solid",
     borderWidth: 1,

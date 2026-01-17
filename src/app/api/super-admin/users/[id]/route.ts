@@ -69,7 +69,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
     });
 
     // If this user is an ADMIN, get all tenant users (users created by this admin)
-    let tenantUsers = [];
+    let tenantUsers: any[] = [];
     if (user.role === UserRole.ADMIN) {
       tenantUsers = await prisma.user.findMany({
         where: {

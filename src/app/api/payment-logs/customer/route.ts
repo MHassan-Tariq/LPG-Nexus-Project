@@ -22,7 +22,7 @@ export async function GET(request: Request) {
       {
         customerName: {
           equals: customerName,
-          mode: "insensitive",
+          mode: "insensitive" as const,
         },
       },
       tenantFilter

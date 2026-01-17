@@ -150,7 +150,7 @@ export async function generateBillPDF(bill: {
       color: "#9ca3af",
     },
     table: {
-      display: "table",
+
       width: "auto",
       borderStyle: "solid",
       borderWidth: 1,

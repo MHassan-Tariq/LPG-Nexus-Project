@@ -38,7 +38,7 @@ export async function POST(request: Request) {
     await prisma.systemSettings.upsert({
       where: {
         adminId_key: {
-          adminId: adminId || null,
+          adminId: (adminId || null) as any,
           key: "chatbotVisible",
         },
       },
@@ -46,7 +46,7 @@ export async function POST(request: Request) {
       create: {
         key: "chatbotVisible",
         value: String(visible),
-        adminId: adminId || null,
+        adminId: (adminId || null) as any,
       },
     });
 

@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   table: {
-    display: "table",
+
     width: "auto",
     borderStyle: "solid",
     borderColor: "#e5e7eb",
@@ -86,7 +86,7 @@ export async function GET() {
   }
   const buffer = Buffer.concat(chunks);
 
-  return new NextResponse(buffer, {
+  return new NextResponse(buffer as any, {
     headers: {
       "Content-Type": "application/pdf",
       "Content-Disposition": `attachment; filename="bulk-bills-${format(new Date(), "yyyy-MM-dd")}.pdf"`,

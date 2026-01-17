@@ -47,7 +47,7 @@ export default async function EditCylinderPage({ params }: EditCylinderPageProps
   // Convert entry to form values
   const initialValues: CylinderFormValues = {
     billCreatedBy: entry.billCreatedBy,
-    cylinderType: entry.cylinderType,
+    cylinderType: entry.cylinderType as "DELIVERED" | "RECEIVED",
     cylinderLabel: entry.cylinderLabel ?? "",
     deliveredBy: entry.deliveredBy ?? "",
     quantity: entry.quantity,
@@ -58,7 +58,7 @@ export default async function EditCylinderPage({ params }: EditCylinderPageProps
     description: entry.description ?? "",
     deliveryDate: entry.deliveryDate,
     // RECEIVED type fields - use quantity if emptyCylinderReceived is null, default to 1 for RECEIVED
-    paymentType: entry.paymentType ?? "CREDIT",
+    paymentType: (entry.paymentType as "CASH" | "CREDIT" | undefined) ?? "CREDIT",
     paymentAmount: entry.paymentAmount ?? 0,
     paymentReceivedBy: entry.paymentReceivedBy ?? "",
     emptyCylinderReceived: entry.cylinderType === "RECEIVED" 
