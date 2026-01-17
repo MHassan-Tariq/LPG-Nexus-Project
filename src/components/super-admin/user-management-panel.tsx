@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { Search, UserPlus, Trash2, Shield, Check, X, Lock, Unlock, Eye, MoreVertical, Edit, UserCog, User } from "lucide-react";
 import { usePagination } from "@/hooks/use-pagination";
 import { useSearch } from "@/hooks/use-search";
-import { apiFetchJson } from "@/lib/api-retry";
+import { apiFetch, apiFetchJson } from "@/lib/api-retry";
 import { log } from "@/lib/logger";
 import { TableSkeleton, CardSkeleton } from "@/components/ui/skeleton-loader";
 import { Button } from "@/components/ui/button";
@@ -114,7 +114,6 @@ export function UserManagementPanel({ onViewUser, variant = "table" }: UserManag
       if (variant === "table") {
         setUsers(data.users || []);
         setTotal(data.total || 0);
-        setTotalPages(data.totalPages || 0);
       } else {
         setUsers(data.users || []);
       }
@@ -209,7 +208,7 @@ export function UserManagementPanel({ onViewUser, variant = "table" }: UserManag
         toast.error(errorMsg);
       }
     } catch (error) {
-      log.error("Error updating user status", error, { userId: user.id, newStatus });
+      log.error("Error updating user status", error, { userId: user.id });
       const errorMsg = error instanceof Error ? error.message : "Failed to update user status";
       toast.error(errorMsg);
     }
@@ -742,7 +741,7 @@ export function UserManagementPanel({ onViewUser, variant = "table" }: UserManag
                     type="button"
                     variant="outline"
                     disabled={page === 1 || isLoading}
-                    onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                    onClick={() => setPage(Math.max(page - 1, 1))}
                     className="h-9 rounded-full border border-[#dfe4f4] bg-white px-4 text-sm font-medium text-slate-500 hover:bg-[#f7f8fd]"
                   >
                     Previous
@@ -754,7 +753,7 @@ export function UserManagementPanel({ onViewUser, variant = "table" }: UserManag
                     type="button"
                     variant="outline"
                     disabled={page >= totalPages || isLoading}
-                    onClick={() => setPage((prev) => prev + 1)}
+                    onClick={() => setPage(page + 1)}
                     className="h-9 rounded-full border border-[#dfe4f4] bg-white px-4 text-sm font-medium text-slate-500 hover:bg-[#f7f8fd]"
                   >
                     Next

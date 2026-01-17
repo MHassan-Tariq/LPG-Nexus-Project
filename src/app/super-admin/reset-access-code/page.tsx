@@ -1,5 +1,10 @@
 import { SuperAdminResetAccessCode } from "@/components/super-admin/super-admin-reset-access-code";
+import { Suspense } from "react";
 
 export default function ResetAccessCodePage() {
-  return <SuperAdminResetAccessCode />;
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SuperAdminResetAccessCode />
+    </Suspense>
+  );
 }

@@ -6,6 +6,8 @@ import { prisma } from "@/lib/prisma";
 import { enforcePagePermission } from "@/lib/permission-check";
 import { getSystemSettingsFilter } from "@/lib/tenant-utils";
 
+export const dynamic = "force-dynamic";
+
 export default async function SettingsPage() {
   // Check permissions before rendering
   await enforcePagePermission("/settings");
@@ -61,4 +63,3 @@ export default async function SettingsPage() {
     </div>
   );
 }
-

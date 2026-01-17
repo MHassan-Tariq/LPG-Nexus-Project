@@ -11,6 +11,7 @@ export interface JWTPayload {
   username?: string | null;
   role?: string;
   adminId?: string | null; // For multi-tenant: Admin's ID (tenant owner)
+  [key: string]: any;
 }
 
 /**

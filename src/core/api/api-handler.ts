@@ -166,26 +166,8 @@ export async function parseJsonBody<T = any>(request: NextRequest): Promise<T> {
 }
 
 /**
- * Create error response
- */
-export function createErrorResponse(
-  message: string,
-  status: number = 400,
-  details?: any
-): NextResponse {
-  return NextResponse.json(
-    {
-      error: message,
-      ...(details && { details }),
-    },
-    { status }
-  );
-}
-
-/**
  * Create success response
  */
 export function createSuccessResponse<T>(data: T, status: number = 200): NextResponse<T> {
   return NextResponse.json(data, { status });
 }
-

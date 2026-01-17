@@ -56,9 +56,9 @@ export function DatePickerWithInput({
             }
           }}
           initialFocus
-          captionLayout="dropdown-buttons"
-          fromYear={2020}
-          toYear={2035}
+          captionLayout="dropdown"
+          startMonth={new Date(2020, 0)}
+          endMonth={new Date(2035, 11)}
         />
       </PopoverContent>
     </Popover>

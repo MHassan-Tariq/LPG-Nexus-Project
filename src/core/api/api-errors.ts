@@ -84,10 +84,15 @@ export function createInternalErrorResponse(): NextResponse {
 /**
  * Create a generic error response with custom message and status code
  */
-export function createErrorResponse(message: string, status: number): NextResponse {
+export function createErrorResponse(
+  message: string,
+  status: number = 400,
+  details?: any
+): NextResponse {
   return NextResponse.json(
     {
       error: message,
+      ...(details && { details }),
     },
     { status }
   );

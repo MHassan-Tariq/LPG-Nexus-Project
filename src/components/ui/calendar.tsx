@@ -49,16 +49,20 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
         ...classNames,
       }}
       components={{
-        IconLeft: () => (
-          <svg viewBox="0 0 24 24" className="h-4 w-4">
-            <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
-          </svg>
-        ),
-        IconRight: () => (
-          <svg viewBox="0 0 24 24" className="h-4 w-4">
-            <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
-          </svg>
-        ),
+        Chevron: ({ orientation }) => {
+          if (orientation === "left") {
+            return (
+              <svg viewBox="0 0 24 24" className="h-4 w-4">
+                <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
+              </svg>
+            );
+          }
+          return (
+            <svg viewBox="0 0 24 24" className="h-4 w-4">
+              <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
+            </svg>
+          );
+        },
       }}
       {...props}
     />
