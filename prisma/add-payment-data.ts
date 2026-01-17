@@ -12,7 +12,7 @@ async function main() {
 
   // Get all customers
   const customers = await prisma.customer.findMany({
-    select: { id: true, customerCode: true, name: true },
+    select: { id: true, customerCode: true, name: true, adminId: true },
   });
 
   if (customers.length === 0) {
@@ -68,6 +68,7 @@ async function main() {
       const bill = await prisma.bill.create({
         data: {
           customerId: customer.id,
+          adminId: customer.adminId,
           billStartDate: billStart,
           billEndDate: billEnd,
           lastMonthRemaining,
@@ -83,6 +84,7 @@ async function main() {
           await prisma.payment.create({
             data: {
               billId: bill.id,
+              adminId: customer.adminId,
               amount: paidAmount,
               paidOn: addDays(billStart, randomBetween(10, 25)),
               method: paymentStatus > 0.7 ? "bank_transfer" : "cash",
@@ -94,6 +96,7 @@ async function main() {
             data: [
               {
                 billId: bill.id,
+                adminId: customer.adminId,
                 amount: Math.floor(paidAmount / 2),
                 paidOn: addDays(billStart, randomBetween(10, 15)),
                 method: "cash",
@@ -101,6 +104,7 @@ async function main() {
               },
               {
                 billId: bill.id,
+                adminId: customer.adminId,
                 amount: paidAmount - Math.floor(paidAmount / 2),
                 paidOn: addDays(billStart, randomBetween(20, 25)),
                 method: "bank_transfer",
