@@ -123,9 +123,13 @@ export function RegisterForm() {
       <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-xl lg:p-10">
         {/* Logo Icon */}
         <div className="mb-6 flex justify-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-[#1c5bff]">
-            <Box className="h-8 w-8 text-white" />
-          </div>
+          <Link href="/">
+            <img 
+              src="/lpgnexus-logo.png" 
+              alt="LPG Nexus Logo" 
+              className="h-24 w-auto object-contain"
+            />
+          </Link>
         </div>
 
         {/* Title */}

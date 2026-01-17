@@ -4,6 +4,7 @@ import "./globals.css";
 import { ChatbotWrapper } from "@/components/ai-chatbot/chatbot-wrapper";
 import { Toaster } from "@/components/ui/sonner";
 import { ErrorBoundary } from "@/components/error-boundary";
+import { MarketingProvider } from "@/context/marketing-context";
 
 const fontSans = Inter({
   variable: "--font-sans",
@@ -38,9 +39,11 @@ export default function RootLayout({
         className={`${fontSans.variable} ${fontMono.variable} min-h-screen bg-background text-foreground antialiased`}
       >
         <ErrorBoundary>
-          {children}
-          <ChatbotWrapper />
-          <Toaster position="top-right" duration={3000} />
+          <MarketingProvider>
+            {children}
+            <ChatbotWrapper />
+            <Toaster position="top-right" duration={3000} />
+          </MarketingProvider>
         </ErrorBoundary>
       </body>
     </html>

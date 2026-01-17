@@ -12,6 +12,7 @@ import { TableSkeleton, CardSkeleton } from "@/components/ui/skeleton-loader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { PaginatedResponse } from "@/core/data/pagination";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -99,12 +100,9 @@ export function UserManagementPanel({ onViewUser, variant = "table" }: UserManag
         params.append("pageSize", pageSize.toString());
       }
 
+
       const startTime = Date.now();
-      const data = await apiFetchJson<{
-        users: User[];
-        total: number;
-        totalPages: number;
-      }>(`/api/super-admin/users?${params.toString()}`);
+      const data = await apiFetchJson<PaginatedResponse<User>>(`/api/super-admin/users?${params.toString()}`);
       const duration = Date.now() - startTime;
       log.api("GET", `/api/super-admin/users`, 200, duration, { 
         search: resolvedQuery, 
@@ -112,10 +110,10 @@ export function UserManagementPanel({ onViewUser, variant = "table" }: UserManag
         status: statusFilter 
       });
       if (variant === "table") {
-        setUsers(data.users || []);
+        setUsers(data.data || []);
         setTotal(data.total || 0);
       } else {
-        setUsers(data.users || []);
+        setUsers(data.data || []);
       }
     } catch (error) {
       log.error("Error fetching users", error, { 

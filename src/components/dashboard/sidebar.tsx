@@ -31,7 +31,7 @@ type NavItem = {
 };
 
 export const allNavItems: NavItem[] = [
-  { label: "Dashboard", href: "/", icon: LayoutDashboard as any },
+  { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard as any },
   { label: "Add Cylinder", href: "/add-cylinder", icon: PlusCircle as any },
   { label: "Add Customer", href: "/add-customer", icon: UserPlus as any },
   { label: "Expenses", href: "/expenses", icon: Receipt as any },
@@ -85,7 +85,7 @@ interface DashboardSidebarProps {
 
 // Map nav item hrefs to module IDs for permission checking
 const hrefToModuleMap: Record<string, string> = {
-  "/": "dashboard",
+  "/dashboard": "dashboard",
   "/add-cylinder": "addCylinder",
   "/add-customer": "addCustomer",
   "/payments": "payments",
@@ -167,7 +167,7 @@ export function DashboardSidebar({
   return (
     <aside
       className={cn(
-        "fixed inset-y-0 left-0 z-30 hidden min-h-screen flex-col border-r bg-white transition-all duration-300 lg:flex",
+        "fixed inset-y-0 left-0 z-30 hidden h-screen flex-col border-r bg-white transition-all duration-300 lg:flex overflow-hidden",
         collapsed ? "w-20" : "w-72",
       )}
     >
@@ -210,7 +210,7 @@ export function DashboardSidebar({
                   isActive
                     ? "bg-[#eef3ff] text-[#2544d6] border-[#2544d6]"
                     : "text-slate-500 hover:bg-slate-100 hover:text-slate-700",
-                  collapsed && "justify-center px-0 py-4",
+                  collapsed && "justify-center px-0 py-3.5",
                 )}
               >
                 <Icon className="h-5 w-5" strokeWidth={1.5} />
@@ -232,7 +232,7 @@ export function DashboardSidebar({
             <ChevronRight className="h-5 w-5 flex-shrink-0" />
           ) : (
             <>
-              <ChevronLeft className="h-4 w-4 flex-shrink-0" />
+              <ChevronLeft className="h-5 w-5 flex-shrink-0" />
               <span>Collapse</span>
             </>
           )}

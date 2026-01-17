@@ -38,7 +38,7 @@ interface DashboardTopbarProps {
 
 // Map paths to page titles
 const pageTitles: Record<string, string> = {
-  "/": "Dashboard",
+  "/dashboard": "Dashboard",
   "/add-cylinder": "Add Cylinder",
   "/add-customer": "Add Customer",
   "/expenses": "Expenses Management",
@@ -167,16 +167,20 @@ export function DashboardTopbar({ userData, softwareName }: DashboardTopbarProps
                   Profile
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>Team</DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/team" className="w-full">
+                  Team
+                </Link>
+              </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link href="/contact" className="w-full">
                   Contact Us
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <a href="https://lpgnexus.com" target="_blank" rel="noopener noreferrer" className="w-full">
+                <Link href="/" className="w-full">
                   Website
-                </a>
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
