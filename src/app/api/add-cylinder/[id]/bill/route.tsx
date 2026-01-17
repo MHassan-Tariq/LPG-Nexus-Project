@@ -1,4 +1,7 @@
 import { NextResponse } from "next/server";
+
+export const dynamic = "force-dynamic";
+
 import { Buffer } from "node:buffer";
 import { Document, Page, Text, View, StyleSheet, Image, renderToStream } from "@react-pdf/renderer";
 import { format } from "date-fns";

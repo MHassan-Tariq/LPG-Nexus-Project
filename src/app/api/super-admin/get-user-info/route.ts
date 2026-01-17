@@ -1,4 +1,7 @@
 import { NextResponse } from "next/server";
+
+export const dynamic = "force-dynamic";
+
 import { prisma } from "@/lib/prisma";
 import { UserRole } from "@prisma/client";
 import { verifyToken } from "@/lib/jwt";
