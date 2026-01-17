@@ -15,10 +15,10 @@ const globalForPrisma = globalThis as unknown as {
 if (typeof window === 'undefined') {
   const dbUrl = process.env.DATABASE_URL;
   if (!dbUrl) {
-    console.warn(" [Prisma Initialization] DATABASE_URL is NOT defined in the environment.");
+    console.error(" [Prisma Initialization] CRITICAL: DATABASE_URL is NOT defined in the environment.");
   } else {
-    const maskedUrl = dbUrl.length > 10 
-      ? dbUrl.substring(0, 5) + "..." + dbUrl.substring(dbUrl.length - 5)
+    const maskedUrl = dbUrl.length > 20 
+      ? dbUrl.substring(0, 10) + "..." + dbUrl.substring(dbUrl.length - 10)
       : "***";
     console.log(` [Prisma Initialization] DATABASE_URL is defined (Value: ${maskedUrl})`);
   }
@@ -31,6 +31,15 @@ function createPrismaClient() {
 }
 
 const client = globalForPrisma.prisma ?? createPrismaClient();
+
+/**
+ * Detect if we are in the Build/Static Generation phase
+ */
+function isBuildPhase() {
+  // NEXT_PHASE is set to 'phase-production-build' during next build
+  return process.env.NEXT_PHASE === 'phase-production-build' || 
+         (typeof window === 'undefined' && !process.env.DATABASE_URL && process.env.VERCEL === '1');
+}
 
 // Create a fail-safe proxy for the Prisma client
 // This ensures that any attempt to use Prisma during build without DATABASE_URL
@@ -50,27 +59,23 @@ const prismaProxy = new Proxy(client, {
           
           if (typeof method === 'function') {
             return (...args: any[]) => {
-              // Build-time safety: 
-              // If we're on the server during BUILD (no DATABASE_URL), trigger a bailout.
-              // We check process.env.NEXT_PHASE to be more precise if possible, 
-              // but DATABASE_URL missing on server is a strong indicator of static generation phase on Vercel.
               if (typeof window === 'undefined' && !process.env.DATABASE_URL) {
-                // IMPORTANT: Only throw dynamic bailout if we are NOT in production runtime. 
-                // Vercel build environment usually doesn't have DATABASE_URL.
-                try {
-                  noStore();
-                } catch (e: any) {
-                  // If it's a dynamic bailout error, rethrow it
-                  if (e?.digest?.includes('DYNAMIC') || e?.message?.includes('dynamic') || e?.message?.includes('bailout')) {
-                    throw e;
+                if (isBuildPhase()) {
+                  try {
+                    noStore();
+                  } catch (e: any) {
+                    if (e?.digest?.includes('DYNAMIC') || e?.message?.includes('dynamic') || e?.message?.includes('bailout')) {
+                      throw e;
+                    }
                   }
+                  const bailoutError = new Error("Dynamic Server Usage: Prisma query during build without DATABASE_URL");
+                  (bailoutError as any).digest = 'DYNAMIC_SERVER_USAGE';
+                  throw bailoutError;
+                } else {
+                  // If we are NOT in build phase but DB URL is missing, it's a runtime config error.
+                  // Throw a regular error so it's logged clearly as a 500.
+                  throw new Error("Runtime Error: DATABASE_URL is missing. Please check your Vercel Environment Variables.");
                 }
-                
-                // Final safety: Force a bailout that Next.js recognizes during build.
-                // We use a custom property to avoid interference with runtime 500s.
-                const bailoutError = new Error("Dynamic Server Usage: Prisma query during build without DATABASE_URL");
-                (bailoutError as any).digest = 'DYNAMIC_SERVER_USAGE';
-                throw bailoutError;
               }
               return method.apply(modelTarget, args);
             };
@@ -83,16 +88,20 @@ const prismaProxy = new Proxy(client, {
     if (isTopLevelMethod) {
       return (...args: any[]) => {
         if (typeof window === 'undefined' && !process.env.DATABASE_URL) {
-          try {
-            noStore();
-          } catch (e: any) {
-            if (e?.digest?.includes('DYNAMIC') || e?.message?.includes('dynamic') || e?.message?.includes('bailout')) {
-              throw e;
+          if (isBuildPhase()) {
+            try {
+              noStore();
+            } catch (e: any) {
+              if (e?.digest?.includes('DYNAMIC') || e?.message?.includes('dynamic') || e?.message?.includes('bailout')) {
+                throw e;
+              }
             }
+            const bailoutError = new Error("Dynamic Server Usage: Prisma query during build without DATABASE_URL");
+            (bailoutError as any).digest = 'DYNAMIC_SERVER_USAGE';
+            throw bailoutError;
+          } else {
+            throw new Error("Runtime Error: DATABASE_URL is missing. Please check your Vercel Environment Variables.");
           }
-          const bailoutError = new Error("Dynamic Server Usage: Prisma query during build without DATABASE_URL");
-          (bailoutError as any).digest = 'DYNAMIC_SERVER_USAGE';
-          throw bailoutError;
         }
         return value.apply(target, args);
       };
