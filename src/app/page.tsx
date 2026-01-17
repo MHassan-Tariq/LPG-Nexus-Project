@@ -10,6 +10,7 @@ import { DashboardClient } from "@/components/dashboard/dashboard-client";
 import { enforcePagePermission } from "@/lib/permission-check";
 import { PagePermissionWrapper } from "@/components/permissions/page-permission-wrapper";
 import { getTenantFilter } from "@/core/tenant/tenant-queries";
+import { unstable_noStore as noStore } from 'next/cache';
 
 function parseMonthYear(month?: string, year?: string) {
   if (!month || !year) return undefined;
@@ -27,6 +28,7 @@ interface DashboardPageProps {
 }
 
 export default async function DashboardPage({ searchParams }: DashboardPageProps) {
+  noStore();
   // Check permissions before rendering
   await enforcePagePermission("/");
   const tenantFilter = await getTenantFilter();

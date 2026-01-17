@@ -17,7 +17,10 @@ export async function getBillTemplateDesign() {
     });
 
     return user?.billTemplateDesign as any || null;
-  } catch (error) {
+  } catch (error: any) {
+    if (error?.digest?.includes('DYNAMIC') || error?.message?.includes('dynamic') || error?.message?.includes('bailout')) {
+      throw error;
+    }
     console.error("Error fetching bill template design:", error);
     return null;
   }

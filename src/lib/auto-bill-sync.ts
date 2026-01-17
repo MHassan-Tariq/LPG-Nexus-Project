@@ -186,7 +186,10 @@ export async function autoSyncBillsForCustomer(customerId: string | null, delive
 
     // Revalidate payments page to reflect changes
     revalidatePath("/payments");
-  } catch (error) {
+  } catch (error: any) {
+    if (error?.digest?.includes('DYNAMIC') || error?.message?.includes('dynamic') || error?.message?.includes('bailout')) {
+      throw error;
+    }
     console.error("Error auto-syncing bills for customer:", error);
     // Don't throw error - we don't want to break cylinder entry creation/update
   }
@@ -212,7 +215,10 @@ export async function autoSyncAllBillsForMonth(deliveryDate: Date) {
     await Promise.all(
       customers.map((customer) => autoSyncBillsForCustomer(customer.id, deliveryDate))
     );
-  } catch (error) {
+  } catch (error: any) {
+    if (error?.digest?.includes('DYNAMIC') || error?.message?.includes('dynamic') || error?.message?.includes('bailout')) {
+      throw error;
+    }
     console.error("Error auto-syncing all bills for month:", error);
   }
 }

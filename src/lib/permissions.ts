@@ -66,7 +66,10 @@ export async function checkModuleAccess(moduleId: string): Promise<AccessLevel> 
     }
 
     return modulePermission;
-  } catch (error) {
+  } catch (error: any) {
+    if (error?.digest?.includes('DYNAMIC') || error?.message?.includes('dynamic') || error?.message?.includes('bailout')) {
+      throw error;
+    }
     console.error("Error checking module access:", error);
     return "NO_ACCESS";
   }
@@ -120,7 +123,10 @@ export async function getUserPermissions(): Promise<Record<string, AccessLevel> 
     }
 
     return user.permissions as Record<string, AccessLevel>;
-  } catch (error) {
+  } catch (error: any) {
+    if (error?.digest?.includes('DYNAMIC') || error?.message?.includes('dynamic') || error?.message?.includes('bailout')) {
+      throw error;
+    }
     console.error("Error getting user permissions:", error);
     return null;
   }

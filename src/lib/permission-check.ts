@@ -3,12 +3,14 @@
 import { redirect } from "next/navigation";
 import { checkModuleAccess } from "@/lib/permissions";
 import { getModuleFromRoute } from "@/lib/route-module-map";
+import { unstable_noStore as noStore } from 'next/cache';
 
 /**
  * Check if user has access to a route and redirect if they don't
  * Call this at the start of page components to enforce permissions
  */
 export async function enforcePagePermission(pathname: string) {
+  noStore();
   // Never check permissions for access-denied page (prevents loops)
   if (pathname === "/access-denied") {
     return true;
