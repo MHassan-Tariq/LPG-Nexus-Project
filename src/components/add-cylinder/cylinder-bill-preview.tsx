@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { usePathname } from "next/navigation";
-import { getBillTemplateDesign } from "@/app/settings/bill-design-actions";
+import { getBillTemplateDesign } from "@/app/(dashboard)/settings/bill-design-actions";
 import { CylinderBillRenderer } from "@/components/bills/cylinder-bill-renderer";
 
 const currencyFormatter = new Intl.NumberFormat("en-PK", {

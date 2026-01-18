@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { BillRenderer } from "@/components/bills/bill-renderer";
-import { getBillTemplateDesign } from "@/app/settings/bill-design-actions";
+import { getBillTemplateDesign } from "@/app/(dashboard)/settings/bill-design-actions";
 
 interface BillPreviewProps {
   bill: {

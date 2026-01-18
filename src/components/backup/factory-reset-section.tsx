@@ -13,7 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { requestFactoryResetOtp, performFactoryReset, getAdminEmail } from "@/app/backup/actions";
+import { requestFactoryResetOtp, performFactoryReset, getAdminEmail } from "@/app/(dashboard)/backup/actions";
 import { formatDistanceToNow, differenceInSeconds } from "date-fns";
 import { useRouter } from "next/navigation";
 

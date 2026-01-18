@@ -113,6 +113,17 @@ export function OverviewTab() {
 
   return (
     <div className="space-y-6">
+      {/* Tab Header */}
+      <div className="flex flex-col items-center text-center mb-8">
+        <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-blue-50 mb-4">
+          <TrendingUp className="h-7 w-7 text-blue-600" />
+        </div>
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900">System Overview</h2>
+          <p className="text-gray-600 mt-1">Quick summary of system statistics and recent activity</p>
+        </div>
+      </div>
+
       {/* Statistics Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {statCards.map((stat, index) => {

@@ -49,7 +49,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { saveBillTemplateDesign, getBillTemplateDesign, saveBillPreset, getBillPresets, deleteBillPreset } from "@/app/settings/bill-design-actions";
+import { saveBillTemplateDesign, getBillTemplateDesign, saveBillPreset, getBillPresets, deleteBillPreset } from "@/app/(dashboard)/settings/bill-design-actions";
 import { CylinderBillRenderer } from "@/components/bills/cylinder-bill-renderer";
 import {
   Dialog,

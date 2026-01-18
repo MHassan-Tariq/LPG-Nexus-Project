@@ -67,7 +67,7 @@ export default function FeaturesPage() {
       <section className="py-24 bg-white">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-4xl font-black text-slate-900 mb-8 uppercase tracking-tight">Ready to Modernize Your Business?</h2>
-          <Link href="/login?registered=true">
+          <Link href="/login">
             <Button size="lg" className="bg-[#2563EB] hover:bg-blue-700 text-white px-10 py-8 rounded-2xl text-lg font-black shadow-2xl shadow-blue-500/20 transition-all uppercase tracking-widest group">
               Start Using LPG Nexus
               <span className="ml-2 group-hover:translate-x-1 transition-transform inline-block">→</span>

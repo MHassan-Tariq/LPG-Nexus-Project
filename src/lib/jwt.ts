@@ -1,6 +1,7 @@
 import "server-only";
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
+import { cache } from "react";
 
 const JWT_SECRET = process.env.JWT_SECRET || "a-string-secret-at-least-256-bits-long";
 const JWT_SECRET_KEY = new TextEncoder().encode(JWT_SECRET);
@@ -87,7 +88,7 @@ export async function verifyToken(token: string): Promise<JWTPayload | null> {
 /**
  * Get the current user from the JWT token in cookies
  */
-export async function getCurrentUser(): Promise<JWTPayload | null> {
+export const getCurrentUser = cache(async (): Promise<JWTPayload | null> => {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
@@ -105,7 +106,7 @@ export async function getCurrentUser(): Promise<JWTPayload | null> {
     }
     return null;
   }
-}
+});
 
 /**
  * Set JWT token in HTTP-only cookie

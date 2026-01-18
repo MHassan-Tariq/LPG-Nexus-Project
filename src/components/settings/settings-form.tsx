@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { saveSettings } from "@/app/settings/actions";
+import { saveSettings } from "@/app/(dashboard)/settings/actions";
 
 const settingsSchema = z.object({
   softwareName: z.string().min(1, "Software name is required").max(100, "Software name is too long"),

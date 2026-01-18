@@ -57,23 +57,41 @@ export function Skeleton({
 /**
  * Table Skeleton - Loading placeholder for tables
  */
-export function TableSkeleton({ rows = 5, columns = 5 }: { rows?: number; columns?: number }) {
+export function TableSkeleton({ 
+  rows = 5, 
+  columns = 5,
+  showHeader = true 
+}: { 
+  rows?: number; 
+  columns?: number;
+  showHeader?: boolean;
+}) {
   return (
-    <div className="space-y-3">
-      {/* Header */}
-      <div className="flex gap-4">
-        {Array.from({ length: columns }).map((_, i) => (
-          <Skeleton key={i} variant="text" height={20} className="flex-1" />
-        ))}
-      </div>
-      {/* Rows */}
-      {Array.from({ length: rows }).map((_, rowIndex) => (
-        <div key={rowIndex} className="flex gap-4">
-          {Array.from({ length: columns }).map((_, colIndex) => (
-            <Skeleton key={colIndex} variant="text" height={16} className="flex-1" />
+    <div className="w-full space-y-4 overflow-hidden rounded-[28px] border border-[#e1e6f2] bg-white p-4 shadow-sm">
+      {showHeader && (
+        <div className="mb-4 flex gap-4 border-b border-slate-100 pb-4">
+          {Array.from({ length: columns }).map((_, i) => (
+            <Skeleton key={i} variant="text" height={24} className="flex-1 opacity-60" />
           ))}
         </div>
-      ))}
+      )}
+      <div className="space-y-4">
+        {Array.from({ length: rows }).map((_, rowIndex) => (
+          <div key={rowIndex} className="flex items-center gap-4 py-1">
+            {Array.from({ length: columns }).map((_, colIndex) => (
+              <Skeleton 
+                key={colIndex} 
+                variant="rectangular" 
+                height={colIndex === 0 ? 20 : 16} 
+                className={cn(
+                  "flex-1",
+                  colIndex === 0 ? "opacity-80" : "opacity-40"
+                )} 
+              />
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

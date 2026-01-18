@@ -110,7 +110,7 @@ export function MarketingPricing() {
                 </a>
               ) : (
                 <a 
-                  href="/login?registered=true"
+                  href="/login"
                   className={cn(
                     "w-full py-6 rounded-xl text-sm font-black transition-all duration-300 uppercase tracking-wide inline-block text-center",
                     plan.popular 

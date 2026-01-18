@@ -12,8 +12,9 @@ import { Pagination, PaginationInfo } from "@/components/ui/pagination";
 import { cn } from "@/lib/utils";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { deleteCustomer } from "@/app/add-customer/actions";
+import { deleteCustomer } from "@/app/(dashboard)/add-customer/actions";
 import { CustomerViewDrawer } from "./customer-view-drawer";
+import { TableSkeleton } from "@/components/ui/skeleton-loader";
 
 export interface CustomerRow {
   id: string;
@@ -208,6 +209,11 @@ export function CustomerTableClient({
   return (
     <>
       <CardContent className="p-0">
+        {isPending ? (
+          <div className="p-6">
+            <TableSkeleton rows={pageSize === "all" ? 10 : Number(pageSize)} columns={9} />
+          </div>
+        ) : (
           <div className="overflow-x-auto">
             <Table className="min-w-[1200px] text-sm">
               <TableHeader>
@@ -287,7 +293,7 @@ export function CustomerTableClient({
                               title="Delete customer"
                             >
                               {deletingId === customer.id ? (
-                                <Loader2 className="h-4 w-4 animate-spin" />
+                               <Loader2 className="h-4 w-4 animate-spin" />
                               ) : (
                                 <Trash2 className="h-4 w-4" />
                               )}
@@ -326,6 +332,7 @@ export function CustomerTableClient({
               </TableBody>
             </Table>
           </div>
+        )}
           <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-[#eef1f8] px-4 pt-4 pb-[15px] text-sm text-slate-500 md:px-6">
             <div className="flex items-center gap-3 text-sm font-medium text-slate-600">
               <PaginationInfo currentPage={page} totalPages={Math.max(totalPages, 1)} pageSize={pageSize} className="whitespace-nowrap" />

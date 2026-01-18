@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 import { NextResponse } from "next/server";
-import { generateBackup } from "@/app/backup/actions";
+import { generateBackup } from "@/app/(dashboard)/backup/actions";
 // Core utilities
 import { createUnauthorizedResponse, createErrorResponse } from "@/core/api/api-errors";
 import { successResponse } from "@/core/api/api-response";

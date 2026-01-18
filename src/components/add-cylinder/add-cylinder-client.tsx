@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { CylinderForm, CylinderFormValues } from "./cylinder-form";
 import { CylinderTable, CylinderEntryRow } from "./cylinder-table";
 import { CylinderViewDrawer } from "./cylinder-view-drawer";
-import { updateCylinderEntry, getCylinderEntry } from "@/app/add-cylinder/actions";
+import { updateCylinderEntry, getCylinderEntry } from "@/app/(dashboard)/add-cylinder/actions";
 import { CylinderCustomerOption } from "./cylinder-form";
 
 interface AddCylinderClientProps {

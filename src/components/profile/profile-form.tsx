@@ -18,7 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { updateProfile } from "@/app/profile/actions";
+import { updateProfile } from "@/app/(dashboard)/profile/actions";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 

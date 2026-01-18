@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { Database, Download, Check, Upload, AlertTriangle, FileUp, RotateCcw } from "lucide-react";
 
-import { restoreBackup } from "@/app/backup/actions";
+import { restoreBackup } from "@/app/(dashboard)/backup/actions";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 

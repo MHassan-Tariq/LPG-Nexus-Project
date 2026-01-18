@@ -1,9 +1,10 @@
-"use server";
+import "server-only";
 
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/jwt";
 import { UserRole } from "@prisma/client";
 import { routeToModuleMap } from "@/lib/route-module-map";
+import { cache } from "react";
 
 export type AccessLevel = "FULL_ACCESS" | "VIEW_ONLY" | "EDIT" | "NO_ACCESS" | "NOT_SHOW";
 
@@ -11,7 +12,7 @@ export type AccessLevel = "FULL_ACCESS" | "VIEW_ONLY" | "EDIT" | "NO_ACCESS" | "
  * Check if user has access to a module
  * Returns the access level for the module
  */
-export async function checkModuleAccess(moduleId: string): Promise<AccessLevel> {
+export const checkModuleAccess = cache(async (moduleId: string): Promise<AccessLevel> => {
   try {
     const currentUser = await getCurrentUser();
 
@@ -73,7 +74,7 @@ export async function checkModuleAccess(moduleId: string): Promise<AccessLevel> 
     console.error("Error checking module access:", error);
     return "NO_ACCESS";
   }
-}
+});
 
 /**
  * Check if user can edit (has EDIT or FULL_ACCESS)
@@ -94,7 +95,7 @@ export async function canView(moduleId: string): Promise<boolean> {
 /**
  * Get user's permissions for all modules
  */
-export async function getUserPermissions(): Promise<Record<string, AccessLevel> | null> {
+export const getUserPermissions = cache(async (): Promise<Record<string, AccessLevel> | null> => {
   try {
     const currentUser = await getCurrentUser();
 
@@ -130,5 +131,5 @@ export async function getUserPermissions(): Promise<Record<string, AccessLevel> 
     console.error("Error getting user permissions:", error);
     return null;
   }
-}
+});
 

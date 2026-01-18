@@ -171,9 +171,9 @@ export function DashboardSidebar({
         collapsed ? "w-20" : "w-72",
       )}
     >
-      <div className={cn("flex h-20 items-center border-b", collapsed ? "justify-center px-0" : "px-6")}>
+      <div className={cn("flex h-24 flex-col justify-center border-b", collapsed ? "items-center px-0" : "px-6")}>
         <div className={cn(collapsed ? "flex items-center justify-center" : "flex items-center gap-3")}>
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 flex-shrink-0">
             {currentSoftwareLogo && currentSoftwareLogo.trim() !== "" ? (
               // Use regular img tag for base64 images
               <img 

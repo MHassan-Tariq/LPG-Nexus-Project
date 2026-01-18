@@ -721,7 +721,7 @@ export function CustomerFormDrawer({
                   </Button>
                   <Button
                     type="submit"
-                    disabled={isPending}
+                    loading={isPending}
                     className="rounded-xl bg-[#1c5bff] px-8 text-sm font-semibold text-white shadow-md shadow-[#1c5bff]/20 hover:bg-[#1647c4] disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isPending ? (isEditMode ? "Updating..." : "Saving...") : (isEditMode ? "Update Customer" : "Save Customer")}

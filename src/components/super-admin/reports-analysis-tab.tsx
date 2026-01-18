@@ -212,14 +212,25 @@ export function ReportsAnalysisTab() {
 
   return (
     <div className="space-y-6">
+      {/* Tab Header */}
+      <div className="flex flex-col items-center text-center mb-8">
+        <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-blue-50 mb-4">
+          <BarChart3 className="h-7 w-7 text-blue-600" />
+        </div>
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900">Reports & Analysis</h2>
+          <p className="text-gray-600 mt-1">Detailed insights into user activity and system audit logs</p>
+        </div>
+      </div>
+
       {/* Header with Filters */}
       <Card className="shadow-sm border-gray-200">
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2 text-gray-900">
-              <BarChart3 className="h-5 w-5 text-gray-600" />
-              Reports & Analysis
-            </CardTitle>
+            <div className="flex items-center gap-2">
+              <Calendar className="h-5 w-5 text-gray-600" />
+              <h3 className="font-semibold text-gray-900">Filter Reports</h3>
+            </div>
             <div className="flex items-center gap-2">
               <Button
                 onClick={() => handleExport("pdf")}

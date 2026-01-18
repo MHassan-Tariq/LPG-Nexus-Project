@@ -188,10 +188,10 @@ export function ForgotPasswordForm() {
 
             <Button
               type="submit"
-              disabled={isLoading}
+              loading={isLoading}
               className="h-12 w-full rounded-xl bg-[#1c5bff] text-sm font-semibold text-white hover:bg-[#1647c4] disabled:opacity-60"
             >
-              {isLoading ? "Sending..." : "Send Reset Code"}
+              Send Reset Code
             </Button>
           </form>
         ) : (
@@ -329,10 +329,11 @@ export function ForgotPasswordForm() {
 
             <Button
               type="submit"
-              disabled={isLoading || isExpired}
+              loading={isLoading}
+              disabled={isExpired}
               className="h-12 w-full rounded-xl bg-[#1c5bff] text-sm font-semibold text-white hover:bg-[#1647c4] disabled:opacity-60"
             >
-              {isLoading ? "Resetting..." : isExpired ? "Code Expired" : "Reset Password"}
+              {isExpired ? "Code Expired" : "Reset Password"}
             </Button>
           </form>
         )}

@@ -138,16 +138,27 @@ export function DeleteAllDataSection() {
   const isExpired = timeRemaining <= 0;
 
   return (
-    <>
+    <div className="space-y-6">
+      {/* Tab Header */}
+      <div className="flex flex-col items-center text-center mb-8">
+        <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-red-50 mb-4">
+          <Trash2 className="h-7 w-7 text-red-600" />
+        </div>
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900">Factory Delete</h2>
+          <p className="text-gray-600 mt-1">Permanently erase all system data and restore to defaults</p>
+        </div>
+      </div>
+
       {/* Delete All Data Section */}
-      <div className="rounded-[32px] border-2 border-red-200 bg-gradient-to-br from-red-50/50 to-orange-50/50 p-6 shadow-sm lg:p-8">
+      <div className="rounded-2xl border-2 border-red-200 bg-gradient-to-br from-red-50/50 to-orange-50/50 p-6 shadow-sm lg:p-8">
         <div className="mb-6 flex items-center gap-3">
-          <div className="rounded-2xl bg-red-100 p-3 text-red-600">
-            <Trash2 className="h-6 w-6" />
+          <div className="rounded-xl bg-red-100 p-3 text-red-600">
+            <AlertTriangle className="h-6 w-6" />
           </div>
           <div>
-            <h2 className="text-2xl font-semibold text-slate-900">Reset Software / Delete All Data</h2>
-            <p className="text-sm text-slate-500">Permanently erase all data and restore to factory settings</p>
+            <h3 className="text-xl font-semibold text-slate-900">Reset Software / Delete All Data</h3>
+            <p className="text-sm text-slate-500">IRREVERSIBLE: This action data will be permanently lost</p>
           </div>
         </div>
 
@@ -329,7 +340,7 @@ export function DeleteAllDataSection() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 }
 

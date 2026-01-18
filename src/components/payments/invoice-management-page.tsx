@@ -12,7 +12,7 @@ import { formatCurrency, formatNumber } from "@/lib/utils";
 import { BillViewDrawer } from "@/components/payments/bill-view-drawer";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { CylinderViewDrawer } from "@/components/add-cylinder/cylinder-view-drawer";
-import { deleteCylinderEntry, getCylinderEntry } from "@/app/add-cylinder/actions";
+import { deleteCylinderEntry, getCylinderEntry } from "@/app/(dashboard)/add-cylinder/actions";
 import { toast } from "sonner";
 import type { CylinderEntryRow } from "@/components/add-cylinder/cylinder-table";
 

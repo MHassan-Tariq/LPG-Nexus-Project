@@ -25,7 +25,7 @@ export function MarketingHero() {
           </p>
           
           <div className="flex flex-wrap gap-3 mb-10">
-            <Link href="/login?registered=true">
+            <Link href="/login">
               <Button size="lg" className="bg-[#2563EB] hover:bg-blue-700 text-white px-6 py-6 rounded-xl text-base font-bold shadow-lg shadow-blue-500/10 group transition-all">
                 Start Free Trial
                 <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>

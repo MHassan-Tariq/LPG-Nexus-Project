@@ -39,7 +39,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { saveReportTemplateDesign, getReportTemplateDesign, saveReportPreset, getReportPresets, deleteReportPreset } from "@/app/settings/bill-design-actions";
+import { saveReportTemplateDesign, getReportTemplateDesign, saveReportPreset, getReportPresets, deleteReportPreset } from "@/app/(dashboard)/settings/bill-design-actions";
 import { ReportPreview } from "@/components/reports/report-preview";
 
 // Report Design Schema - Header and Footer only

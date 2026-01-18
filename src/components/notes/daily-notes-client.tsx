@@ -5,7 +5,7 @@ import { addDays, format } from "date-fns";
 import { BookOpenCheck, Check, Plus, Trash2 } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-import { saveDailyNote } from "@/app/notes/actions";
+import { saveDailyNote } from "@/app/(dashboard)/notes/actions";
 import { Button } from "@/components/ui/button";
 import { DatePickerWithInput } from "@/components/ui/date-picker";
 import { Input } from "@/components/ui/input";

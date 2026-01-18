@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { deleteAllCylinderEntries } from "@/app/add-cylinder/actions";
+import { deleteAllCylinderEntries } from "@/app/(dashboard)/add-cylinder/actions";
 // Core utilities
 import { createForbiddenResponse, createErrorResponse } from "@/core/api/api-errors";
 import { successResponse } from "@/core/api/api-response";

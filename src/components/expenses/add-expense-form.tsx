@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { formatNumber, parseFormattedNumber } from "@/lib/utils";
 
-import { createExpenseAction, updateExpenseAction, type ExpenseFormValues } from "@/app/expenses/actions";
+import { createExpenseAction, updateExpenseAction, type ExpenseFormValues } from "@/app/(dashboard)/expenses/actions";
 import { EXPENSE_TYPE_OPTIONS } from "@/constants/expense-types";
 import { getTodayDate } from "@/lib/utils";
 import { DatePickerWithInput } from "@/components/ui/date-picker";
@@ -272,7 +272,7 @@ export function AddExpenseForm({ selectedExpense, onClearSelection }: AddExpense
             </Button>
             <Button
               type="submit"
-              disabled={isPending}
+              loading={isPending}
               className="h-12 flex-1 rounded-[18px] bg-[#1f64ff] text-sm font-semibold text-white shadow-lg hover:bg-[#194fcb]"
             >
               {isPending ? (isEditing ? "Updating..." : "Adding...") : isEditing ? "Update Expense" : "Add Expense"}

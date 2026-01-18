@@ -55,9 +55,7 @@ export function SuperAdminDashboardContent() {
   return (
     <main className="flex flex-1 flex-col bg-gray-50">
       <SuperAdminHeader />
-      <div className="px-4 lg:px-8">
-        <SuperAdminNavigation activeTab={activeTab} onTabChange={setActiveTab} userRole={userRole} />
-      </div>
+      <SuperAdminNavigation activeTab={activeTab} onTabChange={setActiveTab} userRole={userRole} />
       <div className="flex-1 px-4 pb-10 pt-6 lg:px-8">
         {activeTab === "overview" ? (
           <OverviewTab />

@@ -12,8 +12,8 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { getBillAction } from "@/app/payments/actions";
-import { deletePaymentAction } from "@/app/payments/actions";
+import { getBillAction } from "@/app/(dashboard)/payments/actions";
+import { deletePaymentAction } from "@/app/(dashboard)/payments/actions";
 
 const currency = new Intl.NumberFormat("en-IN", {
   style: "currency",

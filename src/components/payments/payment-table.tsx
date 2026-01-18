@@ -6,13 +6,14 @@ import Link from "next/link";
 import { Download, Eye, Printer, Trash2, Receipt, Loader2 } from "lucide-react";
 
 import type { BillStatus } from "@prisma/client";
-import { deleteBillAction } from "@/app/payments/actions";
+import { deleteBillAction } from "@/app/(dashboard)/payments/actions";
 import { BillStatusBadge } from "@/components/payments/bill-status-badge";
 import { BillViewDrawer } from "@/components/payments/bill-view-drawer";
 import { Button } from "@/components/ui/button";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { TableSkeleton } from "@/components/ui/skeleton-loader";
 
 import { formatNumber, formatCurrency } from "@/lib/utils";
 
@@ -113,31 +114,36 @@ export function PaymentRecordsTable({ records }: PaymentTableProps) {
 
   return (
     <>
-      <div className="overflow-x-auto">
-        <Table className="min-w-[1000px]">
-          <TableHeader>
-            <TableRow className="text-xs uppercase tracking-wide text-slate-400">
-              <TableHead className="text-center">ID</TableHead>
-              <TableHead className="text-center">Name</TableHead>
-              <TableHead className="text-center">Last Month Remaining</TableHead>
-              <TableHead className="text-center">Current Month Bill</TableHead>
-              <TableHead className="text-center">Total Amount</TableHead>
-              <TableHead className="text-center">Paid Amount</TableHead>
-              <TableHead className="text-center">Remaining Amount</TableHead>
-              <TableHead className="text-center">Cylinders</TableHead>
-              <TableHead className="text-center">Bill Status</TableHead>
-              <TableHead className="text-center">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {records.length === 0 && (
-              <TableRow>
-                <TableCell colSpan={10} className="py-10 text-center text-sm text-slate-500">
-                  No payment records match your filters.
-                </TableCell>
+      {isPending ? (
+        <div className="p-6">
+          <TableSkeleton rows={10} columns={10} />
+        </div>
+      ) : (
+        <div className="overflow-x-auto">
+          <Table className="min-w-[1000px]">
+            <TableHeader>
+              <TableRow className="text-xs uppercase tracking-wide text-slate-400">
+                <TableHead className="text-center">ID</TableHead>
+                <TableHead className="text-center">Name</TableHead>
+                <TableHead className="text-center">Last Month Remaining</TableHead>
+                <TableHead className="text-center">Current Month Bill</TableHead>
+                <TableHead className="text-center">Total Amount</TableHead>
+                <TableHead className="text-center">Paid Amount</TableHead>
+                <TableHead className="text-center">Remaining Amount</TableHead>
+                <TableHead className="text-center">Cylinders</TableHead>
+                <TableHead className="text-center">Bill Status</TableHead>
+                <TableHead className="text-center">Actions</TableHead>
               </TableRow>
-            )}
-            {records.map((record) => (
+            </TableHeader>
+            <TableBody>
+              {records.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={10} className="py-10 text-center text-sm text-slate-500">
+                    No payment records match your filters.
+                  </TableCell>
+                </TableRow>
+              )}
+              {records.map((record) => (
                 <TableRow key={record.id} className="text-sm">
                   <TableCell className="whitespace-nowrap text-center font-semibold text-slate-900">{record.code}</TableCell>
                   <TableCell className="whitespace-nowrap text-center text-slate-700">{record.name}</TableCell>
@@ -148,90 +154,91 @@ export function PaymentRecordsTable({ records }: PaymentTableProps) {
                   <TableCell className="text-center text-rose-500 whitespace-nowrap">{formatCurrency(record.remainingAmount)}</TableCell>
                   <TableCell className="whitespace-nowrap text-center font-semibold text-slate-700">{record.cylinders}</TableCell>
                   <TableCell className="whitespace-nowrap text-center">
-                  <BillStatusBadge status={record.status} />
-                </TableCell>
-                <TableCell className="whitespace-nowrap text-center">
-                  <TooltipProvider delayDuration={80}>
-                    <div className="flex flex-nowrap items-center justify-center gap-2">
-                      <ActionIcon 
-                        icon={printingId === record.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Printer className="h-4 w-4" />} 
-                        label="Print Bill" 
-                        onClick={() => handlePrintBill(record.id)}
-                        disabled={printingId === record.id}
-                      />
-                      <ActionIcon 
-                        icon={downloadingId === record.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />} 
-                        label="Download Bill" 
-                        onClick={() => handleDownloadBill(record.id)}
-                        disabled={downloadingId === record.id}
-                      />
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Link href="/payments/invoices">
+                    <BillStatusBadge status={record.status} />
+                  </TableCell>
+                  <TableCell className="whitespace-nowrap text-center">
+                    <TooltipProvider delayDuration={80}>
+                      <div className="flex flex-nowrap items-center justify-center gap-2">
+                        <ActionIcon 
+                          icon={printingId === record.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Printer className="h-4 w-4" />} 
+                          label="Print Bill" 
+                          onClick={() => handlePrintBill(record.id)}
+                          disabled={printingId === record.id}
+                        />
+                        <ActionIcon 
+                          icon={downloadingId === record.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />} 
+                          label="Download Bill" 
+                          onClick={() => handleDownloadBill(record.id)}
+                          disabled={downloadingId === record.id}
+                        />
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Link href="/payments/invoices">
+                              <button
+                                type="button"
+                                className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#f1f3fb] text-slate-600 text-sm transition hover:bg-[#e4e8f5]"
+                                aria-label="View / Generate Invoice"
+                              >
+                                <Receipt className="h-4 w-4" />
+                              </button>
+                            </Link>
+                          </TooltipTrigger>
+                          <TooltipContent className="rounded-full px-3 py-1 text-xs font-semibold bg-slate-900 text-white">
+                            View / Generate Invoice
+                          </TooltipContent>
+                        </Tooltip>
+                        <ActionIcon 
+                          icon={viewingId === record.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Eye className="h-4 w-4" />} 
+                          label="View Payments" 
+                          onClick={() => {
+                            setViewingId(record.id);
+                            setSelected(record);
+                            setTimeout(() => setViewingId(null), 500);
+                          }}
+                          disabled={viewingId === record.id}
+                        />
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
                             <button
                               type="button"
-                              className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#f1f3fb] text-slate-600 text-sm transition hover:bg-[#e4e8f5]"
-                              aria-label="View / Generate Invoice"
+                              disabled={deletingId === record.id}
+                              className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-rose-500/90 text-white transition hover:bg-rose-500 disabled:opacity-50"
+                              aria-label="Delete"
                             >
-                              <Receipt className="h-4 w-4" />
+                              {deletingId === record.id ? (
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                              ) : (
+                                <Trash2 className="h-4 w-4" />
+                              )}
                             </button>
-                          </Link>
-                        </TooltipTrigger>
-                        <TooltipContent className="rounded-full px-3 py-1 text-xs font-semibold bg-slate-900 text-white">
-                          View / Generate Invoice
-                        </TooltipContent>
-                      </Tooltip>
-                      <ActionIcon 
-                        icon={viewingId === record.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Eye className="h-4 w-4" />} 
-                        label="View Payments" 
-                        onClick={() => {
-                          setViewingId(record.id);
-                          setSelected(record);
-                          setTimeout(() => setViewingId(null), 500);
-                        }}
-                        disabled={viewingId === record.id}
-                      />
-                      <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                          <button
-                            type="button"
-                            disabled={deletingId === record.id}
-                            className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-rose-500/90 text-white transition hover:bg-rose-500 disabled:opacity-50"
-                            aria-label="Delete"
-                          >
-                            {deletingId === record.id ? (
-                              <Loader2 className="h-4 w-4 animate-spin" />
-                            ) : (
-                              <Trash2 className="h-4 w-4" />
-                            )}
-                          </button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>Delete Bill</AlertDialogTitle>
-                            <AlertDialogDescription>
-                              Are you sure you want to delete the bill for {record.name} (Bill ID: {record.code})? This will also delete all associated payments. This action cannot be undone.
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction
-                              onClick={() => handleDelete(record.id)}
-                              className="bg-red-600 hover:bg-red-700"
-                            >
-                              Delete
-                            </AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
-                    </div>
-                  </TooltipProvider>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Delete Bill</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                Are you sure you want to delete the bill for {record.name} (Bill ID: {record.code})? This will also delete all associated payments. This action cannot be undone.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogAction
+                                onClick={() => handleDelete(record.id)}
+                                className="bg-red-600 hover:bg-red-700"
+                              >
+                                Delete
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </div>
+                    </TooltipProvider>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      )}
 
       <BillViewDrawer
         billId={selected?.id || ""}

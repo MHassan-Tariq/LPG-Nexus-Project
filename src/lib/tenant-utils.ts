@@ -1,10 +1,5 @@
-/**
- * Multi-Tenant Utilities
- * 
- * Provides helper functions for tenant-aware data access and filtering.
- * Ensures strict data isolation between different admin accounts (tenants).
- */
-
+import "server-only";
+import { cache } from "react";
 import { getCurrentUser } from "./jwt";
 import { prisma } from "./prisma";
 import { UserRole } from "@prisma/client";
@@ -17,7 +12,7 @@ import { UserRole } from "@prisma/client";
  * - ADMIN: returns their own userId (they own their tenant)
  * - STAFF/VIEWER/BRANCH_MANAGER: returns their adminId (their Admin's userId)
  */
-export async function getCurrentAdminId(): Promise<string | null> {
+export const getCurrentAdminId = cache(async (): Promise<string | null> => {
   const currentUser = await getCurrentUser();
   if (!currentUser) {
     return null;
@@ -50,12 +45,12 @@ export async function getCurrentAdminId(): Promise<string | null> {
 
   // STAFF/VIEWER/BRANCH_MANAGER belong to their Admin's tenant
   return user.adminId;
-}
+});
 
 /**
  * Check if current user is Super Admin
  */
-export async function isSuperAdmin(): Promise<boolean> {
+export const isSuperAdmin = cache(async (): Promise<boolean> => {
   const currentUser = await getCurrentUser();
   if (!currentUser) {
     return false;
@@ -72,7 +67,7 @@ export async function isSuperAdmin(): Promise<boolean> {
   });
 
   return user?.role === UserRole.SUPER_ADMIN;
-}
+});
 
 /**
  * Build tenant filter for Prisma queries
@@ -81,7 +76,7 @@ export async function isSuperAdmin(): Promise<boolean> {
  * - For SUPER_ADMIN: {} (no filter, can see all)
  * - For others: { adminId: currentAdminId } (filtered to their tenant)
  */
-export async function getTenantFilter(): Promise<{ adminId?: string } | {}> {
+export const getTenantFilter = cache(async (): Promise<{ adminId?: string } | {}> => {
   const isSuper = await isSuperAdmin();
   if (isSuper) {
     return {}; // Super Admin sees all
@@ -94,7 +89,7 @@ export async function getTenantFilter(): Promise<{ adminId?: string } | {}> {
   }
 
   return { adminId };
-}
+});
 
 /**
  * Get adminId for creating new records
@@ -102,7 +97,7 @@ export async function getTenantFilter(): Promise<{ adminId?: string } | {}> {
  * Returns the adminId that should be assigned to new records.
  * Throws error if user doesn't have a valid tenant.
  */
-export async function getTenantIdForCreate(): Promise<string> {
+export const getTenantIdForCreate = cache(async (): Promise<string> => {
   const currentUser = await getCurrentUser();
   if (!currentUser) {
     throw new Error("Cannot create record: User not authenticated");
@@ -155,14 +150,14 @@ export async function getTenantIdForCreate(): Promise<string> {
   }
 
   return user.adminId;
-}
+});
 
 /**
  * Verify user has access to a specific tenant's data
  * 
  * @param recordAdminId - The adminId of the record being accessed
  */
-export async function canAccessTenantData(recordAdminId: string | null): Promise<boolean> {
+export const canAccessTenantData = cache(async (recordAdminId: string | null): Promise<boolean> => {
   const isSuper = await isSuperAdmin();
   if (isSuper) {
     return true; // Super Admin can access all
@@ -174,7 +169,7 @@ export async function canAccessTenantData(recordAdminId: string | null): Promise
   }
 
   return currentAdminId === recordAdminId;
-}
+});
 
 /**
  * Get adminId for SystemSettings (software name, logo, etc.)
@@ -186,9 +181,9 @@ export async function canAccessTenantData(recordAdminId: string | null): Promise
  * 
  * This ensures settings are saved and loaded with the same adminId.
  */
-export async function getSystemSettingsAdminId(): Promise<string> {
+export const getSystemSettingsAdminId = cache(async (): Promise<string> => {
   return await getTenantIdForCreate();
-}
+});
 
 /**
  * Get tenant filter for SystemSettings queries
@@ -196,8 +191,8 @@ export async function getSystemSettingsAdminId(): Promise<string> {
  * Returns the adminId filter that matches the adminId used when saving settings.
  * This ensures we load the same settings that were saved.
  */
-export async function getSystemSettingsFilter(): Promise<{ adminId: string }> {
+export const getSystemSettingsFilter = cache(async (): Promise<{ adminId: string }> => {
   const adminId = await getSystemSettingsAdminId();
   return { adminId };
-}
+});
 

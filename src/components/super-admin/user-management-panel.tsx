@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Search, UserPlus, Trash2, Shield, Check, X, Lock, Unlock, Eye, MoreVertical, Edit, UserCog, User } from "lucide-react";
+import { Search, UserPlus, Trash2, Shield, Check, X, Lock, Unlock, Eye, MoreVertical, Edit, UserCog, User, Users } from "lucide-react";
 import { usePagination } from "@/hooks/use-pagination";
 import { useSearch } from "@/hooks/use-search";
 import { apiFetch, apiFetchJson } from "@/lib/api-retry";
@@ -311,6 +311,17 @@ export function UserManagementPanel({ onViewUser, variant = "table" }: UserManag
 
   return (
     <div className="space-y-6">
+      {/* Tab Header */}
+      <div className="flex flex-col items-center text-center mb-8">
+        <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-blue-50 mb-4">
+          <Users className="h-7 w-7 text-blue-600" />
+        </div>
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900">User Management</h2>
+          <p className="text-gray-600 mt-1">Manage user accounts, roles, and access permissions</p>
+        </div>
+      </div>
+
       {/* Search and Filter Toolbar */}
       <Card className="shadow-sm border-gray-200">
         <CardContent className="p-4">

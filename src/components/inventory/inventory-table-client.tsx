@@ -6,11 +6,12 @@ import { Eye, Pencil, Trash2, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { formatNumber, formatCurrency } from "@/lib/utils";
 
-import { deleteInventoryItem } from "@/app/inventory/actions";
+import { deleteInventoryItem } from "@/app/(dashboard)/inventory/actions";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { TableSkeleton } from "@/components/ui/skeleton-loader";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -74,6 +75,11 @@ export function InventoryTableClient({ entries }: InventoryTableClientProps) {
 
   return (
     <>
+    {isDeleting ? (
+      <div className="p-6">
+        <TableSkeleton rows={10} columns={11} />
+      </div>
+    ) : (
       <div className="overflow-x-auto">
         <Table className="min-w-[1200px]">
           <TableHeader>
@@ -183,6 +189,7 @@ export function InventoryTableClient({ entries }: InventoryTableClientProps) {
           </TableBody>
         </Table>
       </div>
+    )}
 
       <Sheet open={Boolean(selectedEntry)} onOpenChange={(open) => !open && closeDetails()}>
         <SheetContent side="right" className="w-full max-w-xl border-l border-[#eef1f8] bg-white">

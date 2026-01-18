@@ -8,7 +8,7 @@ import { CustomerTableClient, CustomerRow } from "./customer-table-client";
 import { CustomerSearchBar } from "./customer-search-bar";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { getCustomer, updateCustomer } from "@/app/add-customer/actions";
+import { getCustomer, updateCustomer } from "@/app/(dashboard)/add-customer/actions";
 
 interface CustomerTableWrapperProps {
   customers: CustomerRow[];

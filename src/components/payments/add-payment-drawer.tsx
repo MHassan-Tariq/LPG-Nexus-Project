@@ -316,16 +316,9 @@ export function AddPaymentDrawer({
                 <Button
                   type="submit"
                   className="flex-1 h-12 bg-[#5b55eb] hover:bg-[#443ecd]"
-                  disabled={isPending}
+                  loading={isPending}
                 >
-                  {isPending ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Recording...
-                    </>
-                  ) : (
-                    "Record Payment"
-                  )}
+                  Record Payment
                 </Button>
               </div>
             </form>

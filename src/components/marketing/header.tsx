@@ -71,7 +71,7 @@ export function MarketingHeader() {
             <ArrowLeft className="h-3.5 w-3.5" />
             BACK TO ADMIN
           </Button>
-          <Link href="/login?registered=true">
+          <Link href="/login">
             <Button size="sm" className="bg-[#2563EB] hover:bg-blue-700 text-white px-5 rounded-lg font-bold text-xs shadow-md shadow-blue-200 transition-all active:scale-95">
               GET STARTED
             </Button>
@@ -113,7 +113,7 @@ export function MarketingHeader() {
               <ArrowLeft className="h-4 w-4" />
               Back to Admin
             </Button>
-            <Link href="/login?registered=true" className="w-full">
+            <Link href="/login" className="w-full">
               <Button className="bg-[#2563EB] hover:bg-blue-700 text-white w-full rounded-xl font-bold uppercase">
                 Get Started
               </Button>

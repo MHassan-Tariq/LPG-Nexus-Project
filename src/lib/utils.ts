@@ -38,7 +38,7 @@ export function formatCurrency(value: number | null | undefined): string {
   // Handle negative numbers
   const sign = value < 0 ? "-" : "";
   const absValue = Math.abs(value);
-  return `${sign}Rs ${formatNumber(absValue)}`;
+  return `Rs ${sign}${formatNumber(absValue)}`;
 }
 
 /**

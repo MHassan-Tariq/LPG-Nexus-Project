@@ -1067,9 +1067,9 @@ export function CylinderForm({ onSubmit, customers, initialValues, onCancel, onC
               <Button
                 type="submit"
                 className="h-12 rounded-[20px] bg-[#1c5bff] text-sm font-semibold text-white hover:bg-[#1647c4]"
-                disabled={isPending || disabled}
+                loading={isPending}
+                disabled={disabled}
               >
-                {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 {initialValues 
                   ? "Update Cylinder" 
                   : cylinderType === "RECEIVED" 

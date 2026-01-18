@@ -5,7 +5,7 @@ import { format, parseISO } from "date-fns";
 import { Eye, Pencil, Trash2, Loader2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-import { deleteExpenseAction } from "@/app/expenses/actions";
+import { deleteExpenseAction } from "@/app/(dashboard)/expenses/actions";
 import { EXPENSE_TYPE_OPTIONS } from "@/constants/expense-types";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -16,6 +16,7 @@ import { Pagination, PaginationInfo } from "@/components/ui/pagination";
 import { PageSizeSelect } from "@/components/payments/page-size-select";
 import { cn } from "@/lib/utils";
 import type { ExpenseListItem } from "@/types/expenses";
+import { TableSkeleton } from "@/components/ui/skeleton-loader";
 
 interface ExpensesTableProps {
   expenses: ExpenseListItem[];
@@ -152,10 +153,13 @@ export function ExpensesTable({
       </div>
 
       <div className="px-4 py-4 md:px-6">
-        <div className="overflow-hidden rounded-2xl border border-[#eef1f8]">
-          <div className="overflow-x-auto">
-            <div className="max-h-[520px] overflow-y-auto">
-              <Table className="min-w-[840px]">
+        {isPending ? (
+          <TableSkeleton rows={pageSize === "all" ? 10 : Number(pageSize)} columns={5} />
+        ) : (
+          <div className="overflow-hidden rounded-2xl border border-[#eef1f8]">
+            <div className="overflow-x-auto">
+              <div className="max-h-[520px] overflow-y-auto">
+                <Table className="min-w-[840px]">
               <TableHeader className="sticky top-0 z-10 bg-white shadow-[0_1px_0_0_rgba(226,230,240,0.8)]">
                 <TableRow className="text-xs uppercase tracking-wide text-slate-400">
                   <TableHead className="font-semibold text-slate-500">Expense Type</TableHead>
@@ -281,7 +285,8 @@ export function ExpensesTable({
             </div>
           </div>
         </div>
-      </div>
+      )}
+    </div>
 
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-[#eef1f8] px-4 pt-4 pb-[15px] text-sm text-slate-500 md:px-6">
         <div className="flex items-center gap-3 text-sm font-medium text-slate-600">

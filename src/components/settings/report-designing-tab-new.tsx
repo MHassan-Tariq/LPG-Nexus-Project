@@ -47,7 +47,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { saveReportTemplateDesign, getReportTemplateDesign } from "@/app/settings/bill-design-actions";
+import { saveReportTemplateDesign, getReportTemplateDesign } from "@/app/(dashboard)/settings/bill-design-actions";
 import {
   Dialog,
   DialogContent,

@@ -20,7 +20,7 @@ export function SuperAdminNavigation({ activeTab, onTabChange, userRole }: Super
 
   return (
     <div className="border-b border-gray-200 bg-white">
-      <nav className="flex space-x-1 px-1">
+      <nav className="flex space-x-1 px-4 lg:px-8 justify-center">
         <button
           onClick={() => onTabChange("overview")}
           className={cn(

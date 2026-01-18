@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { getCustomer } from "@/app/add-customer/actions";
+import { getCustomer } from "@/app/(dashboard)/add-customer/actions";
 
 const statusBadgeMap: Record<string, string> = {
   ACTIVE: "border-green-200 bg-green-100 text-green-700 hover:bg-green-100 hover:text-green-700 hover:border-green-200",

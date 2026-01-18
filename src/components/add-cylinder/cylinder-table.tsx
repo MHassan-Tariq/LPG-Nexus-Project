@@ -16,8 +16,9 @@ import { Pagination, PaginationInfo } from "@/components/ui/pagination";
 import { cn } from "@/lib/utils";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { deleteCylinderEntry } from "@/app/add-cylinder/actions";
+import { deleteCylinderEntry } from "@/app/(dashboard)/add-cylinder/actions";
 import { usePageFilters } from "@/hooks/use-page-filters";
+import { TableSkeleton } from "@/components/ui/skeleton-loader";
 
 import { formatNumber, formatCurrency } from "@/lib/utils";
 
@@ -530,8 +531,13 @@ export function CylinderTable({ entries, query, period, page, totalPages, pageSi
         )}
       </CardHeader>
       <CardContent className="p-0">
-        <div className="overflow-x-auto">
-          <Table className="min-w-full">
+        {isPending ? (
+          <div className="p-6">
+            <TableSkeleton rows={pageSize === "all" ? 10 : Number(pageSize)} columns={19} />
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <Table className="min-w-full">
             <TableHeader>
               <TableRow>
                 <TableHead className="w-24 text-center">Delivered Cylinder</TableHead>
@@ -854,6 +860,7 @@ export function CylinderTable({ entries, query, period, page, totalPages, pageSi
             </TableBody>
           </Table>
         </div>
+        )}
         <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-[#eef1f8] px-4 pt-4 pb-[15px] text-sm text-slate-500 md:px-6">
           <div className="flex items-center gap-3 text-sm font-medium text-slate-600">
             <PaginationInfo 

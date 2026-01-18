@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { CylinderForm, CylinderFormValues } from "./cylinder-form";
 import { CylinderTable, CylinderEntryRow } from "./cylinder-table";
 import { CylinderViewDrawer } from "./cylinder-view-drawer";
-import { updateCylinderEntry } from "@/app/add-cylinder/actions";
+import { updateCylinderEntry } from "@/app/(dashboard)/add-cylinder/actions";
 import { CylinderCustomerOption } from "./cylinder-form";
 import { useEditPermission } from "@/hooks/use-edit-permission";
 import { ViewOnlyWrapper } from "@/components/permissions/permission-guard";

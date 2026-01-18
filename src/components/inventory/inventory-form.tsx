@@ -4,7 +4,7 @@ import { useEffect, useState, useTransition } from "react";
 import { useForm, type UseFormReturn } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { createInventoryItem, updateInventoryItem } from "@/app/inventory/actions";
+import { createInventoryItem, updateInventoryItem } from "@/app/(dashboard)/inventory/actions";
 import { inventoryFormSchema, type InventoryFormValues } from "@/lib/validations/inventory";
 import type { InventoryEntry } from "@/components/inventory/inventory-table";
 import { getTodayDate, formatNumber, parseFormattedNumber } from "@/lib/utils";
@@ -414,8 +414,8 @@ export function InventoryForm() {
             >
               Clear
             </Button>
-            <Button type="submit" disabled={isPending} className="h-12 rounded-[18px] bg-[#1c5bff] text-white">
-              {isPending ? (isEditing ? "Updating..." : "Saving...") : isEditing ? "Update Entry" : "Add"}
+            <Button type="submit" loading={isPending} className="h-12 rounded-[18px] bg-[#1c5bff] text-white">
+              {isEditing ? "Update Entry" : "Add"}
             </Button>
           </div>
           {success && <p className="text-sm font-medium text-emerald-600">{success}</p>}
